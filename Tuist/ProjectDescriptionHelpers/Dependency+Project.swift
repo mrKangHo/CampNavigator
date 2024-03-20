@@ -11,13 +11,33 @@ public extension TargetDependency {
     enum Projcet {}
 }
 
+public extension TargetDependency {
+    enum Features {}
+}
+
+
 public extension TargetDependency.Projcet {
-    static let Feature = TargetDependency.project(target: "Feature", path: .relativeToRoot("CampNavigator/Feature"))
-    static let ThirdPartyLib = TargetDependency.project(target: "ThirdPartyLib", path: .relativeToRoot("CampNavigator/ThirdPartyLib"))
     
-    static let Core = TargetDependency.project(target: "Core", path: .relativeToRoot("CampNavigator/Core"))
-    static let Data = TargetDependency.project(target: "Data", path: .relativeToRoot("CampNavigator/Data"))
-    static let Domain = TargetDependency.project(target: "Domain", path: .relativeToRoot("CampNavigator/Domain"))
-    static let Infrastructure = TargetDependency.project(target: "Infrastructure", path: .relativeToRoot("CampNavigator/Infrastructure"))
-    static let Resources = TargetDependency.project(target: "Resources", path: .relativeToRoot("CampNavigator/Resources"))
+    static let Feature = TargetDependency.project(target: "Feature",
+                                                  path: .relativeToRoot("CampNavigator/Feature"))
+    static let ThirdPartyLib = TargetDependency.project(target: "ThirdPartyLib", 
+                                                        path: .relativeToRoot("CampNavigator/ThirdPartyLib"))
+    
+    static let Core = TargetDependency.project(target: "Core", 
+                                               path: .relativeToRoot("CampNavigator/Core"))
+    static let Data = TargetDependency.project(target: "Data", 
+                                               path: .relativeToRoot("CampNavigator/Data"))
+    static let Domain = TargetDependency.project(target: "Domain", 
+                                                 path: .relativeToRoot("CampNavigator/Domain"))
+    static let Infrastructure = TargetDependency.project(target: "Infrastructure", 
+                                                         path: .relativeToRoot("CampNavigator/Infrastructure"))
+    static let Resources = TargetDependency.project(target: "Resources", 
+                                                    path: .relativeToRoot("CampNavigator/Resources"))
+}
+
+
+public extension TargetDependency.Features {
+    
+    static let Read:TargetDependency = .project(target: "Read", path: .relativeToManifest("Read"))
+    static let Edit:TargetDependency = .project(target: "Edit", path: .relativeToManifest("Edit"))
 }

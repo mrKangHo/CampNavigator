@@ -6,7 +6,6 @@ public extension Project {
         
         return self.makeModule(
             module: .App,
-            platform: .iOS,
             product: .app,
             dependencies: [
                 .Projcet.Feature
@@ -22,8 +21,10 @@ public extension Project {
     static func feature() -> Project {
         return self.makeModule(
             module:.Feature,
-            product: .staticFramework,
+            product: .framework,
             dependencies: [
+                .Features.Read,
+                .Features.Edit,
                 .Projcet.Core,
                 .Projcet.Data,
                 .Projcet.Domain,
@@ -107,6 +108,18 @@ public extension Project {
         )
     }
 }
+
+public extension Project {
+    static func readFeature() -> Project {
+        return self.makeSubFeature(featureName: "Read",
+                                   product: .framework)
+    }
+    
+    static func editFeature() -> Project {
+        return self.makeSubFeature(featureName: "Edit",
+                                   product: .framework)
+    }
+}
  
 
 
@@ -116,7 +129,6 @@ public extension Project {
     
     static func makeModule(
         module: Module,
-        platform: Platform = .iOS,
         product: Product,
         organizationName: String = "COKE",
         packages: [Package] = [],
@@ -174,6 +186,72 @@ public extension Project {
             schemes: schemes
         )
     }
+    
+    
+    static func makeSubFeature(
+        featureName: String,
+        destinations: Destinations = [.iPhone, .iPad],
+        product: Product,
+        organizationName: String = "COKE",
+        packages: [Package] = [],
+        deploymentTarget: DeploymentTargets? = .iOS("15.0"),
+        dependencies: [TargetDependency] = [],
+        sources: SourceFilesList = ["Sources/**"],
+        resources: ResourceFileElements? = nil,
+        infoPlist: InfoPlist = .default,
+        addinalTarget:[Target]? = nil
+    ) -> Project {
+        let settings: Settings = .settings(
+            base: [:],
+            configurations: [
+                .debug(name: .debug),
+                .release(name: .release)
+            ], defaultSettings: .recommended)
+
+        let appTarget = Target.target(
+            name: featureName,
+            destinations: destinations,
+            product: product,
+            bundleId: "coke.camp",
+            deploymentTargets: deploymentTarget,
+            infoPlist: infoPlist,
+            sources: sources,
+            resources: resources,
+            dependencies: dependencies
+        )
+
+        let testTarget = Target.target(name: "\(featureName)Tests",
+                                       destinations: destinations,
+                                       product: .unitTests,
+                                       bundleId: "coke.camp.\(featureName)Tests",
+                                       deploymentTargets: deploymentTarget,
+                                       infoPlist:infoPlist,
+                                       sources:["Tests/**"],
+                                       dependencies: [.target(name: featureName)])
+        
+        
+
+        let schemes: [Scheme] = [.makeScheme(target: .debug, name: featureName)]
+
+        var targets: [Target] = [appTarget, testTarget]
+        
+        addinalTarget?.forEach({ addTarget in
+            targets.append(addTarget)
+        })
+
+        return Project(
+            name: featureName,
+            organizationName: organizationName,
+            packages: packages,
+            settings: settings,
+            targets: targets,
+            schemes: schemes
+        )
+    }
+    
+    
+    
+    
 }
 
 extension Scheme {
