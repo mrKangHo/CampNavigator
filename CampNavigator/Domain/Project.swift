@@ -9,3 +9,16 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.domain()
+
+fileprivate extension Project {
+    static func domain() -> Project {
+        return self.makeModule(
+            module:.Domain,
+            product: .staticFramework,
+            dependencies: [
+                .Projcet.Core
+            ],
+            resources: ["Resources/**"]
+        )
+    }
+}

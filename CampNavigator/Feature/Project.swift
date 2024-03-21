@@ -9,3 +9,16 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.feature()
+
+
+fileprivate extension Project {
+    static func feature() -> Project {
+        return self.makeModule(
+            module:.Feature,
+            product: .framework,
+            dependencies: [
+                .Features.Read,
+                .Features.Edit
+            ])
+    }
+}

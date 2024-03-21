@@ -9,3 +9,13 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let project = Project.core()
+
+fileprivate extension Project {
+    static func core() -> Project {
+        return self.makeModule(
+            module:.Core,
+            product: .staticFramework,
+            resources: ["Resources/**"]
+        )
+    }
+}

@@ -1,131 +1,22 @@
 import ProjectDescription
 
-public extension Project {
-    
-    static func app() -> Project {
-        
-        return self.makeModule(
-            module: .App,
-            product: .app,
-            dependencies: [
-                .Projcet.Feature
-            ],
-            resources: ["Resources/**"],
-            infoPlist: .extendingDefault(with: [
-                "UIMainStoryboardFile": "",
-                "UILaunchStoryboardName": "Launch Screen",
-                "ENABLE_TESTS": .boolean(true),
-            ]))
-    }
-    
-    static func feature() -> Project {
-        return self.makeModule(
-            module:.Feature,
-            product: .framework,
-            dependencies: [
-                .Features.Read,
-                .Features.Edit,
-                .Projcet.Core,
-                .Projcet.Data,
-                .Projcet.Domain,
-                .Projcet.Resources,
-                .Projcet.ThirdPartyLib
-            ],
-            resources: ["Resources/**"]
-        )
-    }
-    
-    
-    
-    static func core() -> Project {
-        return self.makeModule(
-            module:.Core,
-            product: .staticFramework,
-            dependencies: [
-                .Projcet.Resources
-            ],
-            resources: ["Resources/**"]
-        )
-    }
-    
-    static func data() -> Project {
-        return self.makeModule(
-            module:.Data,
-            product: .staticFramework,
-            dependencies: [
-                .Projcet.Core,
-                .Projcet.Infrastructure,
-                .Projcet.Domain
-            ],
-            resources: ["Resources/**"]
-        )
-    }
-    
-    static func domain() -> Project {
-        return self.makeModule(
-            module:.Domain,
-            product: .staticFramework,
-            dependencies: [
-                .Projcet.Core
-            ],
-            resources: ["Resources/**"]
-        )
-    }
-    
-    static func infrastructure() -> Project {
-        return self.makeModule(
-            module:.Infrastructure,
-            product: .staticFramework,
-            dependencies: [
-//                .Projcet.Service
-            ],
-            resources: ["Resources/**"]
-        )
-    }
-    
-    static func resources() -> Project {
-        return self.makeModule(
-            module:.Resources,
-            product: .staticFramework,
-            dependencies: [
-//                .Projcet.Service
-            ],
-            resources: ["Resources/**"]
-        )
-    }
-    
-    
-    static func thirdPartyLib() -> Project {
-        
-        return self.makeModule(
-            module: .ThirdPartyLib,
-            product: .staticFramework,
-            packages: [],
-            dependencies: [ 
-                            .SPM.TCA,
-                            .SPM.Alamofire
-            ]
-        )
-    }
-}
-
-public extension Project {
-    static func readFeature() -> Project {
-        return self.makeSubFeature(featureName: "Read",
-                                   product: .framework)
-    }
-    
-    static func editFeature() -> Project {
-        return self.makeSubFeature(featureName: "Edit",
-                                   product: .framework)
-    }
-}
  
-
-
 public extension Project {
     
  
+    static func makeTestModule(module: Module, 
+                               deploymentTarget: DeploymentTargets? = .iOS("15.0"),
+                               infoPlist: InfoPlist = .default) -> Target? {
+        let testTarget = Target.target(name: "\(module.name)Tests",
+                                       destinations: [.iPhone, .iPad],
+                                       product: .unitTests,
+                                       bundleId: "coke.camp.\(module.name)Tests",
+                                       deploymentTargets: deploymentTarget,
+                                       infoPlist:infoPlist,
+                                       sources:["Tests/**"],
+                                       dependencies: [.target(name: module.name)])
+        return testTarget
+    }
     
     static func makeModule(
         module: Module,
@@ -158,20 +49,13 @@ public extension Project {
             dependencies: dependencies
         )
 
-        let testTarget = Target.target(name: "\(module.name)Tests",
-                                       destinations: [.iPhone, .iPad],
-                                       product: .unitTests,
-                                       bundleId: "coke.camp.\(module.name)Tests",
-                                       deploymentTargets: deploymentTarget,
-                                       infoPlist:infoPlist,
-                                       sources:["Tests/**"],
-                                       dependencies: [.target(name: module.name)])
-        
         
 
         let schemes: [Scheme] = [.makeScheme(target: .debug, name: module.name)]
 
-        var targets: [Target] = [appTarget, testTarget]
+        var targets: [Target] = [appTarget]
+        
+ 
         
         addinalTarget?.forEach({ addTarget in
             targets.append(addTarget)
