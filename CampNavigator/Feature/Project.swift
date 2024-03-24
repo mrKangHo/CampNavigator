@@ -15,7 +15,7 @@ fileprivate extension Project {
     static func feature() -> Project {
         return self.makeModule(
             module:.Feature,
-            product: .framework,
+            product: .staticLibrary,
             dependencies: [
                 .Features.Read,
                 .Features.Edit
