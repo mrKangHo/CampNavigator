@@ -8,3 +8,6 @@ struct CampNavigatorApp: App {
         }
     }
 }
+#Preview {
+    ReadView()
+}
