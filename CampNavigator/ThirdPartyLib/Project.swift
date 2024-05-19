@@ -21,7 +21,8 @@ fileprivate extension Project {
             dependencies: [
                             .SPM.TCA,
                             .SPM.Alamofire
-            ]
+            ],
+            infoPlist: .default
         )
     }
 }

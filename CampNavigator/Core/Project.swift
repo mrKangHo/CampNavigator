@@ -15,7 +15,8 @@ fileprivate extension Project {
         return self.makeModule(
             module:.Core,
             product: .staticFramework,
-            resources: ["Resources/**"]
+            resources: ["Resources/**"],
+            infoPlist: .default
         )
     }
 }

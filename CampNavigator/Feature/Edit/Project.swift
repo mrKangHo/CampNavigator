@@ -15,6 +15,8 @@ fileprivate extension Project {
     static func editFeature() -> Project {
         return self.makeSubFeature(featureName: "Edit",
                                    product: .staticLibrary,
-                                   dependencies: [.Projcet.Domain])
+                                   dependencies: [.Projcet.Domain,
+                                                  .Projcet.Resources,
+                                                  .Projcet.ThirdPartyLib])
     }
 }
