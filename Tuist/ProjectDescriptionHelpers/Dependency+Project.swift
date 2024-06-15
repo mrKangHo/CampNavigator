@@ -37,7 +37,13 @@ public extension TargetDependency.Projcet {
 
 
 public extension TargetDependency.Projcet {
+    static let Intro:TargetDependency = .project(target: "Intro",
+                                                path: .relativeToRoot("CampNavigator/Feature/Intro"))
+    static let Read:TargetDependency = .project(target: "Read",
+                                                path: .relativeToRoot("CampNavigator/Feature/Read"))
+    static let Edit:TargetDependency = .project(target: "Edit", 
+                                                path: .relativeToRoot("CampNavigator/Feature/Edit"))
+    static let Filter:TargetDependency = .project(target: "Filter",
+                                                path: .relativeToRoot("CampNavigator/Feature/Filter"))
     
-    static let Read:TargetDependency = .project(target: "Read", path: .relativeToRoot("CampNavigator/Feature/Read"))
-    static let Edit:TargetDependency = .project(target: "Edit", path: .relativeToRoot("CampNavigator/Feature/Edit"))
 }

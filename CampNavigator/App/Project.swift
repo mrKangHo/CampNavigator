@@ -17,7 +17,8 @@ fileprivate extension Project {
         return self.makeModule(
             module: .App,
             product: .app,
-            dependencies: [
+            dependencies: [.Projcet.Intro,
+                           .Projcet.Filter,
                 .Projcet.Read,
                 .Projcet.Edit
             ],

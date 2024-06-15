@@ -1,13 +1,14 @@
 import SwiftUI
-import Read
+import Intro
+
 @main
 struct CampNavigatorApp: App {
     var body: some Scene {
         WindowGroup {
-            ReadView()
+            IntroView()
         }
     }
 }
 #Preview {
-    ReadView()
+    IntroView()
 }
