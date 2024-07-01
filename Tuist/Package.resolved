@@ -19,6 +19,24 @@
       }
     },
     {
+      "identity" : "khdesignsystem",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mrKangHo/KHDesignSystem.git",
+      "state" : {
+        "revision" : "2d562690ec286851ef1638eb4d1b1c7e9d6e7453",
+        "version" : "0.1.0"
+      }
+    },
+    {
+      "identity" : "lottie-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/airbnb/lottie-ios.git",
+      "state" : {
+        "revision" : "769b88d83a42ca8d5572b020c96f47e3690b3796",
+        "version" : "4.4.3"
+      }
+    },
+    {
       "identity" : "swift-case-paths",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-case-paths",

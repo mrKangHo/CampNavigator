@@ -15,4 +15,5 @@ public extension TargetDependency.SPM {
     static let Alamofire = TargetDependency.external(name: "Alamofire")
     static let TCA = TargetDependency.external(name: "ComposableArchitecture")
     static let KHDesignSystem = TargetDependency.external(name: "KHDesignSystem")
+    static let Lottie = TargetDependency.external(name: "Lottie")
 }

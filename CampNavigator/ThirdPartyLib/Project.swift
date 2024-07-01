@@ -20,7 +20,9 @@ fileprivate extension Project {
             packages: [],
             dependencies: [
                             .SPM.TCA,
-                            .SPM.Alamofire
+                            .SPM.Alamofire,
+                            .SPM.Lottie,
+                            .SPM.KHDesignSystem
             ],
             infoPlist: .default
         )

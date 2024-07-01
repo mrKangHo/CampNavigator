@@ -8,11 +8,12 @@
 import SwiftUI
 import Resources
 import Read
+import KHDesignSystem
 
 public struct IntroView: View {
     
     public init() {}
-    
+    @State private var isNavigatingToB = false
     public var body: some View {
         NavigationView { // NavigationView를 추가합니다.
             ZStack {
@@ -24,21 +25,22 @@ public struct IntroView: View {
                     Spacer()
                     HStack {
                         Text("특별했던 경험을\n기록해 보세요")
+                            .font(KHFont.custom(.Light, size: 20)).lineSpacing(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
                             .multilineTextAlignment(.leading) // 다중 라인 텍스트 정렬
                         Spacer()
                     }
-                    .padding(.horizontal, 20)
-                    NavigationLink(destination: ReadView()) {
-                        Text("시작해요")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                    .padding(.bottom, 20)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
+                    Button("시작해요") {
+                        isNavigatingToB = true
+                    }.font(KHFont.custom(.Medium, size: 20)).frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10).padding(.bottom, 20)
                 }
                 .padding(.horizontal, 20)
+            }.fullScreenCover(isPresented: $isNavigatingToB) {
+                ReadView()
             }
         }
     }

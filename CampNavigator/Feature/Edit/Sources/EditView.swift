@@ -7,10 +7,17 @@
 //
 
 import SwiftUI
+import KHDesignSystem
 
-struct EditView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+public struct EditView: View {
+    public init() {}
+    public  var body: some View {
+        VStack {
+            Text("Detail for")
+                .font(KHFont.custom(.Bold, size: 40))
+            // 여기에 더 많은 상세 정보 UI를 추가할 수 있습니다.
+        }
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
