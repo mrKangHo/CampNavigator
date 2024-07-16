@@ -25,7 +25,9 @@ public struct IntroView: View {
                     Spacer()
                     HStack {
                         Text("특별했던 경험을\n기록해 보세요")
-                            .font(KHFont.custom(.Light, size: 20)).lineSpacing(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
+                            .font(KHFont.subTitle01)
+                            .foregroundStyle(.white)
+                            .lineSpacing(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
                             .multilineTextAlignment(.leading) // 다중 라인 텍스트 정렬
                         Spacer()
                     }

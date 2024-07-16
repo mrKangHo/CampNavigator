@@ -82,7 +82,7 @@ public extension Project {
         dependencies: [TargetDependency] = [],
         sources: SourceFilesList = ["Sources/**"],
         resources: ResourceFileElements? = nil,
-        infoPlist: InfoPlist? = nil,
+        infoPlist: InfoPlist? = .default,
         addinalTarget:[Target]? = nil
     ) -> Project {
         let settings: Settings = .settings(

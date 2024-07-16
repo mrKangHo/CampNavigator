@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mrKangHo/KHDesignSystem.git",
       "state" : {
-        "revision" : "2d562690ec286851ef1638eb4d1b1c7e9d6e7453",
-        "version" : "0.1.0"
+        "revision" : "113e85954eb4d359e7a78708ffd71c99dd76018b",
+        "version" : "0.1.1"
       }
     },
     {
