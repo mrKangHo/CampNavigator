@@ -22,8 +22,10 @@ public struct IntroView: View {
                     .ignoresSafeArea()
                 
                 VStack {
+                    
                     Spacer()
                     HStack {
+                        
                         Text("특별했던 경험을\n기록해 보세요")
                             .font(KHFont.subTitle01)
                             .foregroundStyle(.white)
@@ -52,3 +54,36 @@ public struct IntroView: View {
     IntroView()
 }
 
+struct CustomFont: ViewModifier {
+    var size: CGFloat
+    var weight: Font.Weight
+    var lineSpacing: CGFloat
+    
+    func body(content: Content) -> some View {
+        content
+            .font(.system(size: size, weight: weight))
+            .lineSpacing(lineSpacing)
+    }
+}
+
+extension View {
+    
+    
+    
+    
+    func customFont(size: CGFloat, weight: Font.Weight, lineSpacing: CGFloat) -> some View {
+        
+        
+        self.modifier(CustomFont(size: size, weight: weight, lineSpacing: lineSpacing))
+    }
+    
+    // 타이틀 스타일 정의
+    var title: some View {
+        self.customFont(size: 24, weight: .bold, lineSpacing: 10)
+    }
+    
+    // 예시로 본문 스타일 정의
+    var bodyStyle: some View {
+        self.customFont(size: 16, weight: .regular, lineSpacing: 5)
+    }
+}

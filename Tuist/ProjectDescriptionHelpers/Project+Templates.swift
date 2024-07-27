@@ -103,6 +103,20 @@ public extension Project {
             resources: resources,
             dependencies: dependencies
         )
+        
+        
+        let appPreviewTarget = Target.target(
+            name: "\(featureName)Preview",
+            destinations: destinations,
+            product: .app,
+            bundleId: "coke.camp.\(featureName)Preview",
+            deploymentTargets: deploymentTarget,
+            infoPlist: infoPlist,
+            sources: sources,
+            resources: resources,
+            dependencies: [.target(name: featureName)]
+        )
+        
 
         let testTarget = Target.target(name: "\(featureName)Tests",
                                        destinations: destinations,
@@ -114,15 +128,17 @@ public extension Project {
                                        dependencies: [.target(name: featureName)])
         
         
+ 
+        
+        
+        
+        
 
         let schemes: [Scheme] = [.makeScheme(target: .debug, name: featureName)]
 
-        var targets: [Target] = [appTarget, testTarget]
+        let targets: [Target] = [appTarget, testTarget, appPreviewTarget]
+ 
         
-        addinalTarget?.forEach({ addTarget in
-            targets.append(addTarget)
-        })
-
         return Project(
             name: featureName,
             organizationName: organizationName,
