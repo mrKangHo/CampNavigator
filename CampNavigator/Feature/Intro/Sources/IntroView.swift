@@ -43,7 +43,8 @@ public struct IntroView: View {
                         .cornerRadius(10).padding(.bottom, 20)
                 }
                 .padding(.horizontal, 20)
-            }.fullScreenCover(isPresented: $isNavigatingToB) {
+            }
+            .fullScreenCover(isPresented: $isNavigatingToB) {
                 ReadView()
             }
         }

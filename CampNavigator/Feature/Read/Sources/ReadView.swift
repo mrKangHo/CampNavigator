@@ -1,12 +1,14 @@
 import SwiftUI
 import Edit
 import KHDesignSystem
+import Domain
+import SwiftData
 
 public struct ReadView: View {
     
     public init() {}
     
-    let items = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
+    @Query var items:[CampPlace]
     
     public var body: some View {
         NavigationView(content: {
@@ -19,7 +21,7 @@ public struct ReadView: View {
                     
                     
                     List(items, id: \.self) { item in
-                        ReadItemView(item: item)
+                        ReadItemView(item: "item")
                             .frame(height: 150)
                             .cornerRadius(10)
                             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 12, trailing: 0))

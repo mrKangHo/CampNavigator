@@ -5,7 +5,7 @@ public extension Project {
     
  
     static func makeTestModule(module: Module, 
-                               deploymentTarget: DeploymentTargets? = .iOS("16.0"),
+                               deploymentTarget: DeploymentTargets? = .iOS("17.0"),
                                infoPlist: InfoPlist? = nil) -> Target? {
         let testTarget = Target.target(name: "\(module.name)Tests",
                                        destinations: [.iPhone, .iPad],
@@ -23,7 +23,7 @@ public extension Project {
         product: Product,
         organizationName: String = "COKE",
         packages: [Package] = [],
-        deploymentTarget: DeploymentTargets? = .iOS("16.0"),
+        deploymentTarget: DeploymentTargets? = .iOS("17.0"),
         dependencies: [TargetDependency] = [],
         sources: SourceFilesList = ["Sources/**"],
         resources: ResourceFileElements? = nil,
@@ -78,7 +78,7 @@ public extension Project {
         product: Product,
         organizationName: String = "COKE",
         packages: [Package] = [],
-        deploymentTarget: DeploymentTargets? = .iOS("16.0"),
+        deploymentTarget: DeploymentTargets? = .iOS("17.0"),
         dependencies: [TargetDependency] = [],
         sources: SourceFilesList = ["Sources/**"],
         resources: ResourceFileElements? = nil,
