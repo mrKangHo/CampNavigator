@@ -10,7 +10,7 @@ import Foundation
 import SwiftData
 
 @Model
-public class CampFacility {
+public class CampFacility:Equatable {
     public var name:String
     @Attribute(.unique) public var id:UUID = UUID()
     

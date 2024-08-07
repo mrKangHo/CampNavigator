@@ -10,7 +10,7 @@ import Foundation
 import SwiftData
 
 @Model
-public class CampLocation {
+public class CampLocation:Equatable {
     public var address:String
     public var latitude: Double
     public var longitude: Double

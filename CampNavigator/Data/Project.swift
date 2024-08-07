@@ -18,7 +18,8 @@ fileprivate extension Project {
             dependencies: [
                 .Projcet.Infrastructure,
             ],
-            resources: ["Resources/**"]
+            resources: ["Resources/**"],
+            infoPlist: .default
         )
     }
 }

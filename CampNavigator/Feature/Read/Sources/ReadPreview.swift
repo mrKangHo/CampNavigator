@@ -8,7 +8,7 @@
 
 import SwiftUI
 import KHDesignSystem
-
+import ComposableArchitecture
 
 @main
 struct ReadPreview: App {
@@ -19,10 +19,10 @@ struct ReadPreview: App {
     
     var body: some Scene {
         WindowGroup {
-            ReadView()
+            ReadView(name: "")
         }
     }
 }
 #Preview {
-    ReadView()
+    ReadView(name: "")
 }

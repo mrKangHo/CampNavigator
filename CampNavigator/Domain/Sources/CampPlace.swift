@@ -11,7 +11,7 @@ import SwiftUICore
 import CoreLocation
 
 @Model
-public class CampPlace {
+public class CampPlace: Equatable {
     public var name:String
     public var visitDates:[Date]
     public var facility:[CampFacility]

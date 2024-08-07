@@ -19,7 +19,8 @@ fileprivate extension Project {
             dependencies: [
 //                .Projcet.Service
             ],
-            resources: ["Resources/**"]
+            resources: ["Resources/**"],
+            infoPlist: .default
         )
     }
 }

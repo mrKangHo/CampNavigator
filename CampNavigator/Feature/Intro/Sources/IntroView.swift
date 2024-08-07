@@ -45,7 +45,7 @@ public struct IntroView: View {
                 .padding(.horizontal, 20)
             }
             .fullScreenCover(isPresented: $isNavigatingToB) {
-                ReadView()
+                ReadView(name: "")
             }
         }
     }
