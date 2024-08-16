@@ -39,7 +39,7 @@ extension CampDataBase : DependencyKey {
         do {
             @Dependency(\.databaseService.context) var context
             let campContext = try context()
-            let descriptor = FetchDescriptor<CampPlace>(sortBy: [SortDescriptor(\.visitDates.last)])
+            let descriptor = FetchDescriptor<CampPlace>(sortBy: [SortDescriptor(\.visitDates)])
             return try campContext.fetch(descriptor)
         }
         catch {

@@ -15,9 +15,11 @@ fileprivate extension Project {
     static func filterFeature() -> Project {
         return self.makeSubFeature(featureName: "Filter",
                                    product: .staticLibrary,
-                                   dependencies: [.Projcet.Data,
-                                                  .Projcet.Domain,
-                                                  .Projcet.Resources,
-                                                  .Projcet.ThirdPartyLib])
+                                   dependencies: [
+//                                                .Projcet.Data,
+//                                                  .Projcet.Domain,
+//                                                  .Projcet.Resources,
+//                                                  .Projcet.ThirdPartyLib
+                                   ])
     }
 }

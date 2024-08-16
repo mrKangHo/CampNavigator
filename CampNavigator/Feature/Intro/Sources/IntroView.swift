@@ -7,17 +7,18 @@
 
 import SwiftUI
 import Resources
-import Read
 import KHDesignSystem
+import Read
 
 public struct IntroView: View {
     
-    public init() {}
+    public init() {
+    }
     @State private var isNavigatingToB = false
     public var body: some View {
         NavigationView { // NavigationView를 추가합니다.
             ZStack {
-                Image(uiImage: ResourcesAsset.introWall.image) // 유효한지 확인해야 합니다.
+                Image(uiImage: ResourcesAsset.introWall.image)
                     .resizable(resizingMode: .stretch)
                     .ignoresSafeArea()
                 
@@ -45,7 +46,7 @@ public struct IntroView: View {
                 .padding(.horizontal, 20)
             }
             .fullScreenCover(isPresented: $isNavigatingToB) {
-                ReadView(name: "")
+                ReadView()
             }
         }
     }
@@ -53,38 +54,4 @@ public struct IntroView: View {
 
 #Preview {
     IntroView()
-}
-
-struct CustomFont: ViewModifier {
-    var size: CGFloat
-    var weight: Font.Weight
-    var lineSpacing: CGFloat
-    
-    func body(content: Content) -> some View {
-        content
-            .font(.system(size: size, weight: weight))
-            .lineSpacing(lineSpacing)
-    }
-}
-
-extension View {
-    
-    
-    
-    
-    func customFont(size: CGFloat, weight: Font.Weight, lineSpacing: CGFloat) -> some View {
-        
-        
-        self.modifier(CustomFont(size: size, weight: weight, lineSpacing: lineSpacing))
-    }
-    
-    // 타이틀 스타일 정의
-    var title: some View {
-        self.customFont(size: 24, weight: .bold, lineSpacing: 10)
-    }
-    
-    // 예시로 본문 스타일 정의
-    var bodyStyle: some View {
-        self.customFont(size: 16, weight: .regular, lineSpacing: 5)
-    }
 }

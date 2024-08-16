@@ -7,15 +7,15 @@
 //
 
 import SwiftUI
-import KHDesignSystem
+//import KHDesignSystem
 
 
 @main
 struct FilterPreview: App {
     
-    init() {
-        KHFont.loadFonts()
-    }
+//    init() {
+//        KHFont.loadFonts()
+//    }
     
     var body: some Scene {
         WindowGroup {

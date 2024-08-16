@@ -19,10 +19,10 @@ struct ReadPreview: App {
     
     var body: some Scene {
         WindowGroup {
-            ReadView(name: "")
+            ReadView()
         }
     }
 }
 #Preview {
-    ReadView(name: "")
+    ReadView()
 }

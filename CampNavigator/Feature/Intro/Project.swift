@@ -15,9 +15,12 @@ fileprivate extension Project {
     static func introFeature() -> Project {
         return self.makeSubFeature(featureName: "Intro",
                                    product: .staticLibrary,
-                                   dependencies: [.Projcet.Data,
-                                                  .Projcet.Domain,
+                                   dependencies: [
+//                                    .Projcet.Data,
+//                                                  .Projcet.Domain,
                                                   .Projcet.Resources,
-                                                  .Projcet.ThirdPartyLib])
+                                                  .Projcet.ThirdPartyLib,
+                                                  .Projcet.Read
+                                   ])
     }
 }

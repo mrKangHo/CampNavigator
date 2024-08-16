@@ -25,16 +25,16 @@ public struct PhotoItemView: View {
                     print("KANGHO")
                     onDelete()
                 }
-//            Button {
-//                
-//            } label: {
-//                Image(systemName: "xmark.circle").resizable()
-//                    .foregroundColor(KHColor.Gray.GR10)
-//                    .frame(width: 14, height: 14)
-//                    .padding(6)
-//                    .background(KHColor.Gray.GR90.opacity(0.7))
-//                    .cornerRadius(8)
-//            }
+            Button {
+                
+            } label: {
+                Image(systemName: "xmark.circle").resizable()
+                    .foregroundColor(KHColor.Gray.GR10)
+                    .frame(width: 14, height: 14)
+                    .padding(6)
+                    .background(KHColor.Gray.GR90.opacity(0.7))
+                    .cornerRadius(8)
+            }
         }
         
         

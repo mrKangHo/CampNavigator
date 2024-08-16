@@ -20,8 +20,8 @@ fileprivate extension Project {
             dependencies: [
                 .Projcet.Intro,
                 .Projcet.Filter,
-                .Projcet.Read,
-                .Projcet.Edit
+//                .Projcet.Read,
+//                .Projcet.Edit
             ],
             resources: ["Resources/**"],
             infoPlist: .extendingDefault(with: [

@@ -12,13 +12,6 @@ import Dependencies
 import SwiftData
 import Domain
 import Data
- 
-public struct Sample {
-    public var variant:Int = 0
-    public init() {
-        
-    }
-}
 
 @Reducer
 public struct ReadReducer {

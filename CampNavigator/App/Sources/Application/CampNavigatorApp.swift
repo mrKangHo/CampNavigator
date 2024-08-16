@@ -17,8 +17,7 @@ struct CampNavigatorApp: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
-    
-    
+ 
     
     init() {
         KHFont.loadFonts()

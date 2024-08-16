@@ -8,6 +8,7 @@
 
 import SwiftUI
 import KHDesignSystem
+import ComposableArchitecture
 
 
 @main
@@ -19,11 +20,15 @@ struct EditPreview: App {
     
     var body: some Scene {
         WindowGroup {
-            EditView()
+            EditView(store: Store(initialState: EditReducer.State(), reducer: {
+                EditReducer()
+            }))
         }
     }
 }
 #Preview {
-    EditView()
+    EditView(store: Store(initialState: EditReducer.State(), reducer: {
+        EditReducer()
+    }))
 }
 
