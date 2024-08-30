@@ -9,11 +9,11 @@
 import SwiftUI
 import KHDesignSystem
 import ComposableArchitecture
-
+import Domain
 
 @main
 struct EditPreview: App {
-    
+   
     init() {
         KHFont.loadFonts()
     }
@@ -22,7 +22,7 @@ struct EditPreview: App {
         WindowGroup {
             EditView(store: Store(initialState: EditReducer.State(), reducer: {
                 EditReducer()
-            }))
+            })).modelContainer(CampModelContainer.modelContainer)
         }
     }
 }

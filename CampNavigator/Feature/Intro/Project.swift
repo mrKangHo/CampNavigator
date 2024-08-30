@@ -16,11 +16,11 @@ fileprivate extension Project {
         return self.makeSubFeature(featureName: "Intro",
                                    product: .staticLibrary,
                                    dependencies: [
-//                                    .Projcet.Data,
-//                                                  .Projcet.Domain,
-                                                  .Projcet.Resources,
-                                                  .Projcet.ThirdPartyLib,
-                                                  .Projcet.Read
+                                                .Projcet.Data,
+                                                .Projcet.Domain,
+                                                .Projcet.Resources,
+                                                .Projcet.ThirdPartyLib,
+                                                .Projcet.Read
                                    ])
     }
 }

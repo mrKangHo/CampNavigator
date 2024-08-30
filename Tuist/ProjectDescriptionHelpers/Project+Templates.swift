@@ -28,7 +28,8 @@ public extension Project {
         sources: SourceFilesList = ["Sources/**"],
         resources: ResourceFileElements? = nil,
         infoPlist: InfoPlist? = nil,
-        addinalTarget:[Target]? = nil
+        addinalTarget:[Target]? = nil,
+        resourceSynthesizers:[ResourceSynthesizer] = .default
     ) -> Project {
         let settings: Settings = .settings(
             base: [:],
@@ -67,7 +68,8 @@ public extension Project {
             packages: packages,
             settings: settings,
             targets: targets,
-            schemes: schemes
+            schemes: schemes,
+            resourceSynthesizers: resourceSynthesizers
         )
     }
     

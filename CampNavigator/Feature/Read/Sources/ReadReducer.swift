@@ -15,10 +15,15 @@ import Data
 
 @Reducer
 public struct ReadReducer {
+    
+    public init(){}
+    
     @ObservableState
     public struct State: Equatable {
+        public init() {}
         public var count = 0
-        public init() {} // public 초기화자
+        public var items:[CampPlace] = []
+        
     }
     
     public enum Action: Equatable {

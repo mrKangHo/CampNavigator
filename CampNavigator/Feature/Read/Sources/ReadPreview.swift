@@ -9,7 +9,8 @@
 import SwiftUI
 import KHDesignSystem
 import ComposableArchitecture
-
+import SwiftData
+import Domain
 @main
 struct ReadPreview: App {
     
@@ -19,10 +20,13 @@ struct ReadPreview: App {
     
     var body: some Scene {
         WindowGroup {
-            ReadView()
+            let state = ReadReducer.State()
+            let reducer = Store(initialState: state) {ReadReducer()}
+            
+            ReadView(store: reducer).modelContainer(CampModelContainer.modelContainer)
         }
     }
 }
 #Preview {
-    ReadView()
+    ReadView(store: Store(initialState: ReadReducer.State()) {ReadReducer()})
 }
