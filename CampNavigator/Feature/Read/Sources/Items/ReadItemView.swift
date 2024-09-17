@@ -18,7 +18,7 @@ public struct ReadItemView: View {
         ZStack {
             Image(asset: ResourcesAsset.introWall)
                 .resizable()
-                .clipShape(.rect(cornerRadius: 10))
+                .clipShape(.rect(cornerRadius: 20))
             VStack {
                 HStack {
                     DateView()
@@ -31,7 +31,7 @@ public struct ReadItemView: View {
                     .frame(maxWidth: .infinity)
                     .frame(height: 100)
                     .background(.white)
-                    .clipShape(.rect(cornerRadius: 10))
+                    .clipShape(.rect(cornerRadius: 20))
                     .padding(10)
             }
             

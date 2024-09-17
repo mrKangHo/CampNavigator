@@ -15,7 +15,10 @@ struct PlaceView: View {
             HStack {
                 Text("스칸디 캠프팜").font(KHFont.subTitle03)
                 Spacer()
-            }.padding(.bottom, 10)
+                Button(action: {}, label: {
+                    Image(systemName: "ellipsis")
+                })
+            }.padding(.vertical, 10)
             HStack {
                 ZStack {
                     CirCleChipView(color: .red,
@@ -30,9 +33,16 @@ struct PlaceView: View {
                 }
                 Spacer()
             }
+            
+            HStack {
+                Spacer()
+                Text("충남 보령").font(KHFont.body02)
+                Image(systemName: "mappin.circle")
+            }
+            
             Spacer()
             
-        }.padding(10)
+        }.padding(20)
         
     }
 }
