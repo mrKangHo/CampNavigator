@@ -12,6 +12,7 @@ import Read
 import ComposableArchitecture
 
 public struct IntroView: View {
+    @AppStorage("hasRunHistgory") private var hasRunHistgory: Bool = false
     
     public init() {
     }
@@ -40,6 +41,7 @@ public struct IntroView: View {
                                         bottom: 20,
                                         trailing: 0))
                     Button("시작해요") {
+                        hasRunHistgory = true
                         isNavigatingToB = true
                     }.font(KHFont.subTitle01)
                         .frame(maxWidth: .infinity)
