@@ -11,8 +11,8 @@ import SwiftData
 import Dependencies
 import Domain
 
-extension DependencyValues {
-    public var campPlace:CampDataBase {
+public extension DependencyValues {
+    var campPlace:CampDataBase {
         get { self[CampDataBase.self] }
         set { self[CampDataBase.self] = newValue }
     }

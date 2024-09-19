@@ -9,6 +9,7 @@
 import Foundation
 import ComposableArchitecture
 import Domain
+import Data
 import MapKit
 @Reducer
 public struct EditReducer {
@@ -54,6 +55,8 @@ public struct EditReducer {
         
     }
     
+    @Dependency(\.campPlace) var campPlace
+    
     public var body: some Reducer<State, Action> {
         
         Reduce { state, action in
@@ -91,7 +94,9 @@ public struct EditReducer {
                 state.address = address
                 return .none
             case .savePlace:
-                return .none
+                return .run { [saveItem = state.editInfo] send in
+                    try? campPlace.add(saveItem)
+                }
             case .showAlert:
                 state.alert = AlertState(title: {
                     TextState("사진 삭제")

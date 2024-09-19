@@ -12,8 +12,6 @@ public struct ReadView: View {
     }
     
     let store:StoreOf<ReadReducer>
-    @State private var selectedItem: String?
-    public let items:[String] =  ["1", "2", "3", "4"]
     
     private var emptyView: some View {
         Text("방문한곳이 없네요")
@@ -24,7 +22,7 @@ public struct ReadView: View {
     public var body: some View {
         NavigationView(content: {
             VStack {
-                if items.isEmpty {
+                if store.items.isEmpty {
                     emptyView
                 }
                 else {
@@ -43,7 +41,9 @@ public struct ReadView: View {
                     itemAddButton()
                 }
             }
-        })
+        }).onAppear() {
+            store.send(.didApear)
+        }
         
     }
 }
@@ -53,9 +53,9 @@ public struct ReadView: View {
 internal extension ReadView {
     
     func itemListView() -> some View {
-        List(items, id: \.self) { item in
+        List(store.items, id: \.id) { item in
             ZStack {
-                ReadItemView(item: "item")
+                ReadItemView(item: item)
                 NavigationLink {
                     EditView(store: Store(initialState: EditReducer.State(), reducer: {
                         EditReducer()

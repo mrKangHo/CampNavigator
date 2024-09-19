@@ -14,7 +14,7 @@ import Domain
 import MapKit
 
 public struct EditView: View {
-
+    @Environment(\.dismiss) var dismiss
     public init(store: StoreOf<EditReducer>) {
         self.store = store
     }
@@ -81,6 +81,7 @@ public struct EditView: View {
             Spacer()
             KHButton(title: "확인", action: {
                 store.send(.savePlace)
+                dismiss()
             }, KHButtonStyle(background: KHColor.Primary.P00, 12)).foregroundColor(.white).frame(height: 50)
         }.padding()
         .navigationBarTitleDisplayMode(.inline)

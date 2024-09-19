@@ -21,24 +21,28 @@ public struct ReadReducer {
     @ObservableState
     public struct State: Equatable {
         public init() {}
-        public var count = 0
         public var items:[CampPlace] = []
         
     }
     
     public enum Action: Equatable {
-        case decrementButtonTapped
-        case incrementButtonTapped
+        case didApear
+        case fetch([CampPlace])
     }
+    
+    @Dependency(\.campPlace) var campPlace
     
     public var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
-            case .decrementButtonTapped:
-                state.count -= 1
-                return .none
-            case .incrementButtonTapped:
-                state.count += 1
+            case .didApear:
+                
+                return .run { send in
+                    let items = try self.campPlace.fetchAll()
+                    await send(.fetch(items))
+                }
+            case .fetch(let items):
+                state.items = items
                 return .none
             }
         }

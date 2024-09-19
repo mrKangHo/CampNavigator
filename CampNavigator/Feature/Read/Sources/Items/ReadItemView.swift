@@ -8,14 +8,22 @@
 
 import SwiftUI
 import Resources
+import Data
+import Domain
 
 public struct ReadItemView: View {
-    public init(item: String) {
+    
+    
+    public var item:CampPlace
+    
+    public init(item: CampPlace) {
         self.item = item
     }
-    public var item:String
+    
+    
     public var body: some View {
         ZStack {
+            
             Image(asset: ResourcesAsset.introWall)
                 .resizable()
                 .clipShape(.rect(cornerRadius: 20))
@@ -45,6 +53,6 @@ public struct ReadItemView: View {
 }
 
 #Preview {
-    ReadItemView(item: "이강호")
+    ReadItemView(item: CampPlace(name: "스칸디아", visitDates: Date()))
 }
 
