@@ -7,46 +7,55 @@
 //
 
 import SwiftUI
+import Domain
+import Resources
 import KHDesignSystem
 
 struct PlaceView: View {
+    
+    let campInfo:CampPlace
+    
     var body: some View {
-        VStack {
-            HStack {
-                Text("스칸디 캠프팜").font(KHFont.subTitle03)
-                Spacer()
-                Button(action: {}, label: {
-                    Image(systemName: "ellipsis")
-                })
-            }.padding(.vertical, 10)
-            HStack {
-                ZStack {
-                    CirCleChipView(color: .red,
-                                   image: Image(systemName: "map"))
-                        .offset(x: 0, y: 0)
-                    CirCleChipView(color: .blue,
-                                   image: Image(systemName: "figure"))
-                        .offset(x: 15, y: 0)
-                    CirCleChipView(color: .green,
-                                   image: Image(systemName: "sun.rain"))
-                        .offset(x: 30, y: 0)
+        GlassView(cornerRadius: 0).overlay {
+            VStack {
+                HStack {
+                    Text(campInfo.name)
+                        .font(KHFont.subTitle03)
+                        .foregroundStyle(.white)
+                    Spacer()
+                    Button(action: {}, label: {
+                        Image(systemName: "ellipsis")
+                    })
+                }.padding(.vertical, 10)
+                HStack {
+                    ZStack {
+                        CirCleChipView(color: .red,
+                                       image: Image(systemName: "map"))
+                            .offset(x: 0, y: 0)
+                        CirCleChipView(color: .blue,
+                                       image: Image(systemName: "figure"))
+                            .offset(x: 15, y: 0)
+                        CirCleChipView(color: .green,
+                                       image: Image(systemName: "sun.rain"))
+                            .offset(x: 30, y: 0)
+                    }
+                    Spacer()
                 }
-                Spacer()
-            }
-            
-            HStack {
-                Spacer()
-                Text("충남 보령").font(KHFont.body02)
-                Image(systemName: "mappin.circle")
-            }
-            
-            Spacer()
-            
-        }.padding(20)
+                
+                HStack {
+                    Spacer()
+                    Text(campInfo.location?.address ?? "")
+                        .font(KHFont.body02)
+                        .foregroundStyle(.white)
+                    Image(systemName: "mappin.and.ellipse.circle")
+                        .foregroundColor(.white)
+                }
+            }.padding(20)
+        }.background(.blue)
         
     }
 }
 
 #Preview {
-    PlaceView()
+    PlaceView(campInfo: CampPlace(name: "스칸디아", visitDates: Date(), photos: [ResourcesAsset.panda.image.pngData() ?? Data()], location: CampLocation(address: "서울 강남구 역삼동 12-1", latitude: 37.5, longitude: 126.95)))
 }

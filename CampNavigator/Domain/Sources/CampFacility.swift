@@ -12,10 +12,11 @@ import SwiftData
 @Model
 public class CampFacility:Equatable {
     public var name:String
-    @Attribute(.unique) public var id:UUID = UUID()
+    @Attribute(.unique) public var id:String
     
-    public init(name: String, id: UUID) {
+    public init(name: String) {
+        self.id = UUID().uuidString
         self.name = name
-        self.id = id
+        
     }
 }

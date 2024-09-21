@@ -23,24 +23,24 @@ public struct ReadItemView: View {
     
     public var body: some View {
         ZStack {
+            if let firstPhotoData = item.photos?.first, let firstPhoto = UIImage(data: firstPhotoData) {
+                Image(uiImage: firstPhoto)
+                    .resizable()
+                    .clipShape(.rect(cornerRadius: 20))
+            }
             
-            Image(asset: ResourcesAsset.introWall)
-                .resizable()
-                .clipShape(.rect(cornerRadius: 20))
             VStack {
                 HStack {
-                    DateView()
-                        .frame(width: 60, height: 80)
+                    DateView(visitDates: [item.visitDates])
+                        .frame(width: 80, height: 80)
                         .padding(10)
                     Spacer()
                 }
                 Spacer()
-                PlaceView()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 100)
-                    .background(.white)
-                    .clipShape(.rect(cornerRadius: 20))
-                    .padding(10)
+                PlaceView(campInfo: item)
+                    .frame(maxHeight: 140)
+                    .clipShape(.rect(topLeadingRadius: 12,
+                                     topTrailingRadius: 12))
             }
             
         }
@@ -53,6 +53,7 @@ public struct ReadItemView: View {
 }
 
 #Preview {
-    ReadItemView(item: CampPlace(name: "스칸디아", visitDates: Date()))
+    
+    ReadItemView(item: CampPlace(name: "스칸디아", visitDates: Date(), photos: [ResourcesAsset.panda.image.pngData() ?? Data()], location: CampLocation(address: "서울 강남구 역삼동 12-1", latitude: 37.5, longitude: 126.95)))
 }
 

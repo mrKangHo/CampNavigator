@@ -10,20 +10,49 @@ import SwiftUI
 import KHDesignSystem
 
 struct DateView: View {
+    
+    var visitDates:[Date]
+    var visitCount:String {
+        let count = self.visitDates.count
+        return count > 1 ? "\(count)번째 방문" : "첫 방문"
+    }
+    
     var body: some View {
-        VStack {
-            Text("Dec")
-                .font(KHFont.body01)
-                .padding(.bottom, 4)
-            Text("22")
-                .font(KHFont.subTitle02)
+        
+        ZStack(alignment: .bottom) {
+            GlassView(cornerRadius: 10)
+            VStack {
+                Text(self.convertDate(visitDates.first ?? Date(), format: "MMM").uppercased())
+                    .font(KHFont.title01)
+                    .foregroundStyle(KHColor.Gray.GR50)
+                Text(self.convertDate(visitDates.first ?? Date(), format: "dd"))
+                    .font(KHFont.subTitle01)
+                    .padding(.bottom, 4)
+                Text(visitCount)
+                    .font(KHFont.subTitle03)
+                    .foregroundStyle(KHColor.Label.LB30)
+                    .padding(.bottom, 4)
+            }
+
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
 
+
+extension DateView {
+    
+    
+    
+    
+    func convertDate(_ date:Date, format:String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter.string(from: date)
+    }
+}
+
+
 #Preview {
-    DateView()
+    DateView(visitDates: [Date()])
 }
