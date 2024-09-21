@@ -14,7 +14,7 @@ let project = Project.introFeature()
 fileprivate extension Project {
     static func introFeature() -> Project {
         return self.makeSubFeature(featureName: "Intro",
-                                   product: .staticLibrary,
+                                   product: .framework,
                                    dependencies: [
                                                 .Projcet.Data,
                                                 .Projcet.Domain,

@@ -14,7 +14,7 @@ let project = Project.readFeature()
 fileprivate extension Project {
     static func readFeature() -> Project {
         return self.makeSubFeature(featureName: "Read",
-                                   product: .staticLibrary,
+                                   product: .framework,
                                    dependencies: [
                                                     .Projcet.Data,
                                                     .Projcet.Domain,

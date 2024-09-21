@@ -19,9 +19,7 @@ fileprivate extension Project {
             product: .app,
             dependencies: [
                 .Projcet.Intro,
-                .Projcet.Filter,
-//                .Projcet.Read,
-//                .Projcet.Edit
+                .Projcet.Read
             ],
             resources: ["Resources/**"],
             infoPlist: .extendingDefault(with: [
