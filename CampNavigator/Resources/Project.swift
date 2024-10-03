@@ -14,12 +14,16 @@ fileprivate extension Project {
     static func resources() -> Project {
         return self.makeModule(
             module:.Resources,
-            product: .staticFramework,
+            product: .framework,
             dependencies: [
-//                .Projcet.Service
+                .SPM.Lottie
             ],
             resources: ["Resources/**"],
-            infoPlist: .default
+            infoPlist: .default,
+            resourceSynthesizers: [.assets(),
+                .custom(name: "Lottie",
+                        parser: .json,
+                        extensions: ["lottie"])]
         )
     }
 }

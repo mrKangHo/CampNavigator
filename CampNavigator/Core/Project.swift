@@ -14,7 +14,7 @@ fileprivate extension Project {
     static func core() -> Project {
         return self.makeModule(
             module:.Core,
-            product: .staticFramework,
+            product: .framework,
             resources: ["Resources/**"],
             infoPlist: .default
         )

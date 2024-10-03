@@ -15,7 +15,7 @@ fileprivate extension Project {
     static func infrastructure() -> Project {
         return self.makeModule(
             module:.Infrastructure,
-            product: .staticFramework,
+            product: .framework,
             dependencies: [
 //                .Projcet.Service
             ],

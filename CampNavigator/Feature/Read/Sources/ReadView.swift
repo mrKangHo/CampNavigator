@@ -13,28 +13,21 @@ public struct ReadView: View {
     
     let store:StoreOf<ReadReducer>
     
-    private var emptyView: some View {
-        Text("방문한곳이 없네요")
-            .font(KHFont.subTitle02)
-            .foregroundStyle(KHColor.Gray.GR90)
-            .frame(maxHeight: .infinity)
-    }
+   
     public var body: some View {
         NavigationView(content: {
             VStack {
                 if store.items.isEmpty {
-                    emptyView
+                    ReadEmptyView()
                 }
                 else {
                     itemListView()
                 }
- 
-
             }
             .toolbar {
                 ToolbarItem(placement: .navigation) {
                     Text("방문 장소")
-                        .font(KHFont.title02) // 원하는 폰트와 크기로 변경
+                        .font(KHFont.title02)
                         .foregroundColor(KHColor.Primary.P00)
                 }
                 ToolbarItem {

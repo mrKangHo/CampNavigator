@@ -16,11 +16,9 @@ fileprivate extension Project {
         
         return self.makeModule(
             module: .ThirdPartyLib,
-            product: .staticFramework,
+            product: .framework,
             packages: [],
-            dependencies: [
-                            .SPM.TCA,
-                            .SPM.Alamofire,
+            dependencies: [ .SPM.TCA,
                             .SPM.Lottie,
                             .SPM.KHDesignSystem
             ],

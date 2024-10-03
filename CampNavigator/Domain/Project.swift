@@ -14,7 +14,7 @@ fileprivate extension Project {
     static func domain() -> Project {
         return self.makeModule(
             module:.Domain,
-            product: .staticFramework,
+            product: .framework,
             dependencies: [
                 .Projcet.Core
             ],

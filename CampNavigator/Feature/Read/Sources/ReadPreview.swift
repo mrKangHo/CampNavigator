@@ -11,10 +11,12 @@ import KHDesignSystem
 import ComposableArchitecture
 import SwiftData
 import Domain
+import Resources
 @main
 struct ReadPreview: App {
     
     init() {
+        AnimationAsset.preload()
         KHFont.loadFonts()
     }
     
