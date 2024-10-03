@@ -8,19 +8,5 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.data()
+let project = Project.makeModule(Modules.Data)
 
-fileprivate extension Project {
-    static func data() -> Project {
-        return self.makeModule(
-            module:.Data,
-            product: .framework,
-            dependencies: [
-                .Projcet.Infrastructure,
-                .SPM.Dependencies,
-            ],
-            resources: ["Resources/**"],
-            infoPlist: .default
-        )
-    }
-}

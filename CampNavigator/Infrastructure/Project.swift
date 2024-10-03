@@ -8,19 +8,5 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.infrastructure()
+let project = Project.makeModule(Modules.Infrastructure)
 
-
-fileprivate extension Project {
-    static func infrastructure() -> Project {
-        return self.makeModule(
-            module:.Infrastructure,
-            product: .framework,
-            dependencies: [
-//                .Projcet.Service
-            ],
-            resources: ["Resources/**"],
-            infoPlist: .default
-        )
-    }
-}

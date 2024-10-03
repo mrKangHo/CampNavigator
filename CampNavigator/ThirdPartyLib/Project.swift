@@ -8,21 +8,4 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.thirdPartyLib()
-
-
-fileprivate extension Project {
-    static func thirdPartyLib() -> Project {
-        
-        return self.makeModule(
-            module: .ThirdPartyLib,
-            product: .framework,
-            packages: [],
-            dependencies: [ .SPM.TCA,
-                            .SPM.Lottie,
-                            .SPM.KHDesignSystem
-            ],
-            infoPlist: .default
-        )
-    }
-}
+let project = Project.makeModule(Modules.ThirdPartyLib)

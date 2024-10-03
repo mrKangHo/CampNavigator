@@ -8,15 +8,5 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.core()
-
-fileprivate extension Project {
-    static func core() -> Project {
-        return self.makeModule(
-            module:.Core,
-            product: .framework,
-            resources: ["Resources/**"],
-            infoPlist: .default
-        )
-    }
-}
+let project = Project.makeModule(Modules.Core)
+ 

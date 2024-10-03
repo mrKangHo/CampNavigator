@@ -8,18 +8,5 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.domain()
+let project = Project.makeModule(Modules.Domain)
 
-fileprivate extension Project {
-    static func domain() -> Project {
-        return self.makeModule(
-            module:.Domain,
-            product: .framework,
-            dependencies: [
-                .Projcet.Core
-            ],
-            resources: ["Resources/**"],
-            infoPlist: .default
-        )
-    }
-}

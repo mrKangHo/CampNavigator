@@ -8,22 +8,5 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.resources()
+let project = Project.makeModule(Modules.Resources)
 
-fileprivate extension Project {
-    static func resources() -> Project {
-        return self.makeModule(
-            module:.Resources,
-            product: .framework,
-            dependencies: [
-                .SPM.Lottie
-            ],
-            resources: ["Resources/**"],
-            infoPlist: .default,
-            resourceSynthesizers: [.assets(),
-                .custom(name: "Lottie",
-                        parser: .json,
-                        extensions: ["lottie"])]
-        )
-    }
-}

@@ -18,8 +18,6 @@ public extension TargetDependency {
 
 public extension TargetDependency.Projcet {
     
-    static let Feature = TargetDependency.project(target: "Feature",
-                                                  path: .relativeToRoot("CampNavigator/Feature"))
     static let ThirdPartyLib = TargetDependency.project(target: "ThirdPartyLib", 
                                                         path: .relativeToRoot("CampNavigator/ThirdPartyLib"))
     

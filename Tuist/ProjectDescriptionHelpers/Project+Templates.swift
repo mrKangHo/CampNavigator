@@ -3,34 +3,9 @@ import ProjectDescription
  
 public extension Project {
     
- 
-    static func makeTestModule(module: Module, 
-                               deploymentTarget: DeploymentTargets? = .iOS("17.0"),
-                               infoPlist: InfoPlist? = nil) -> Target? {
-        let testTarget = Target.target(name: "\(module.name)Tests",
-                                       destinations: [.iPhone, .iPad],
-                                       product: .unitTests,
-                                       bundleId: "coke.camp.\(module.name)Tests",
-                                       deploymentTargets: deploymentTarget,
-                                       infoPlist:infoPlist,
-                                       sources:["Tests/**"],
-                                       dependencies: [.target(name: module.name)])
-        return testTarget
-    }
-    
-    static func makeModule(
-        module: Module,
-        product: Product,
-        organizationName: String = "COKE",
-        packages: [Package] = [],
-        deploymentTarget: DeploymentTargets? = .iOS("17.0"),
-        dependencies: [TargetDependency] = [],
-        sources: SourceFilesList = ["Sources/**"],
-        resources: ResourceFileElements? = nil,
-        infoPlist: InfoPlist? = nil,
-        addinalTarget:[Target]? = nil,
-        resourceSynthesizers:[ResourceSynthesizer] = .default
+    static func makeModule(_ module: ModuleProtocol
     ) -> Project {
+        
         let settings: Settings = .settings(
             base: [:],
             configurations: [
@@ -40,119 +15,70 @@ public extension Project {
 
         let appTarget = Target.target(
             name: module.name,
-            destinations: [.iPhone, .iPad],
-            product: product,
-            bundleId: "coke.camp.\(module.name)",
-            deploymentTargets: deploymentTarget,
-            infoPlist: infoPlist,
-            sources: sources,
-            resources: resources,
-            dependencies: dependencies
+            destinations: .iOS,
+            product: module.product,
+            bundleId: "\(ENV.prefixBundleId).\(module.name)",
+            deploymentTargets: ENV.deploymentTarget,
+            infoPlist: module.infoPlist,
+            sources: module.sources,
+            resources: module.resources,
+            dependencies: module.dependencies
         )
 
+        
+        let isFeatures = module is Modules.Feature
+        
         
 
         let schemes: [Scheme] = [.makeScheme(target: .debug, name: module.name)]
 
         var targets: [Target] = [appTarget]
+  
         
- 
+        if isFeatures {
+            let appPreviewTarget = Target.target(
+                name: "\(module.name)Preview",
+                destinations: .iOS,
+                product: .app,
+                bundleId: "\(ENV.prefixBundleId).\(module.name)Preview",
+                deploymentTargets: ENV.deploymentTarget,
+                infoPlist: module.infoPlist,
+                sources: module.sources,
+                resources: module.resources,
+                dependencies: [.target(name: module.name)]
+            )
+            
+            targets.append(appPreviewTarget)
+        }
         
-        addinalTarget?.forEach({ addTarget in
-            targets.append(addTarget)
-        })
+        
+        if module.includeTesting {
+            let testTarget = Target.target(name: "\(module.name)Tests",
+                                           destinations: .iOS,
+                                           product: .unitTests,
+                                           bundleId: "\(ENV.prefixBundleId).\(module.name)Tests",
+                                           deploymentTargets: ENV.deploymentTarget,
+                                           infoPlist:module.infoPlist,
+                                           sources:["Tests/**"],
+                                           dependencies: [.target(name: module.name)])
+            targets.append(testTarget)
+            
+        }
+        
+        
+  
 
         return Project(
             name: module.name,
-            organizationName: organizationName,
-            packages: packages,
+            organizationName: ENV.organizationName,
+            packages: [],
             settings: settings,
             targets: targets,
             schemes: schemes,
-            resourceSynthesizers: resourceSynthesizers
+            resourceSynthesizers: module.resourceSynthesizers
         )
     }
-    
-    
-    static func makeSubFeature(
-        featureName: String,
-        destinations: Destinations = [.iPhone, .iPad],
-        product: Product,
-        organizationName: String = "COKE",
-        packages: [Package] = [],
-        deploymentTarget: DeploymentTargets? = .iOS("17.0"),
-        dependencies: [TargetDependency] = [],
-        sources: SourceFilesList = ["Sources/**"],
-        resources: ResourceFileElements? = nil,
-        infoPlist: InfoPlist? = .default,
-        addinalTarget:[Target]? = nil
-    ) -> Project {
-        let settings: Settings = .settings(
-            base: [:],
-            configurations: [
-                .debug(name: .debug),
-                .release(name: .release)
-            ], defaultSettings: .recommended)
 
-        let appTarget = Target.target(
-            name: featureName,
-            destinations: destinations,
-            product: product,
-            bundleId: "coke.camp.\(featureName)",
-            deploymentTargets: deploymentTarget,
-            infoPlist: infoPlist,
-            sources: sources,
-            resources: resources,
-            dependencies: dependencies
-        )
-        
-        
-        let appPreviewTarget = Target.target(
-            name: "\(featureName)Preview",
-            destinations: destinations,
-            product: .app,
-            bundleId: "coke.camp.\(featureName)Preview",
-            deploymentTargets: deploymentTarget,
-            infoPlist: infoPlist,
-            sources: sources,
-            resources: resources,
-            dependencies: [.target(name: featureName)]
-        )
-        
-
-        let testTarget = Target.target(name: "\(featureName)Tests",
-                                       destinations: destinations,
-                                       product: .unitTests,
-                                       bundleId: "coke.camp.\(featureName)Tests",
-                                       deploymentTargets: deploymentTarget,
-                                       infoPlist:infoPlist,
-                                       sources:["Tests/**"],
-                                       dependencies: [.target(name: featureName)])
-        
-        
- 
-        
-        
-        
-        
-
-        let schemes: [Scheme] = [.makeScheme(target: .debug, name: featureName)]
-
-        let targets: [Target] = [appTarget, testTarget, appPreviewTarget]
- 
-        
-        return Project(
-            name: featureName,
-            organizationName: organizationName,
-            packages: packages,
-            settings: settings,
-            targets: targets,
-            schemes: schemes
-        )
-    }
-    
-    
-    
     
 }
 

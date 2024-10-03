@@ -8,18 +8,4 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.filterFeature()
-
-
-fileprivate extension Project {
-    static func filterFeature() -> Project {
-        return self.makeSubFeature(featureName: "Filter",
-                                   product: .staticLibrary,
-                                   dependencies: [
-//                                                .Projcet.Data,
-//                                                  .Projcet.Domain,
-//                                                  .Projcet.Resources,
-//                                                  .Projcet.ThirdPartyLib
-                                   ])
-    }
-}
+let project = Project.makeModule(Modules.Feature.Filter)

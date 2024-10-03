@@ -8,19 +8,5 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.introFeature()
+let project = Project.makeModule(Modules.Feature.Intro)
 
-
-fileprivate extension Project {
-    static func introFeature() -> Project {
-        return self.makeSubFeature(featureName: "Intro",
-                                   product: .framework,
-                                   dependencies: [
-                                                .Projcet.Data,
-                                                .Projcet.Domain,
-                                                .Projcet.Resources,
-                                                .Projcet.ThirdPartyLib,
-                                                .Projcet.Read
-                                   ])
-    }
-}

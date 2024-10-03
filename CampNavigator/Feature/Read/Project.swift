@@ -8,18 +8,4 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let project = Project.readFeature()
-
-
-fileprivate extension Project {
-    static func readFeature() -> Project {
-        return self.makeSubFeature(featureName: "Read",
-                                   product: .framework,
-                                   dependencies: [
-                                                    .Projcet.Data,
-                                                    .Projcet.Domain,
-                                                    .Projcet.Resources,
-                                                    .Projcet.ThirdPartyLib,
-                                                    .Projcet.Edit])
-    }
-}
+let project = Project.makeModule(Modules.Feature.Read)
