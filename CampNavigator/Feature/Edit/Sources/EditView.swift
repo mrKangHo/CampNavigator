@@ -23,68 +23,38 @@ public struct EditView: View {
    @Bindable public var store:StoreOf<EditReducer>
  
     public  var body: some View {
-        VStack {
-            
-            KHTextField(text: $store.editInfo.name.sending(\.updateName),
-                         placeHolder: "캠핑장의 이름은 어떻게 되나요?",
-                         symboldIcon:Image(systemName: "pencil"))
-            DatePicker("방문은 언제했나요?", selection: $store.editInfo.visitDates.sending(\.updateVisitDate), displayedComponents: .date).font(KHFont.subTitle02)
-            
-//            KHTextField(text: $store.name.sending(\.updateName),
-//                        placeHolder: "시설은?",
-//                        symboldIcon:Image(systemName: "pencil"))
-            
-            
-            
-            Map(coordinateRegion: $store.mapCoordinateRegion.sending(\.updateLocation))
-                .frame(maxWidth: .infinity)
-                .frame(height: 140)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-            Text(store.address).font(KHFont.body01)
-            HStack {
-                Button(action: {}, label: {
-                    Image(systemName: "photo.badge.plus.fill")
-                        .foregroundStyle(.white)
-                        .frame(width: 40,height: 140)
-                }).background(KHColor.Primary.P10)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                
-                
-                if let photos = store.editInfo.photos {
-                    ScrollView(.horizontal) {
-                        HStack(spacing: 16) {
-                            ForEach(photos.indices, id: \.self) { index in
-                                PhotoItemView(Photo: ResourcesAsset.panda.swiftUIImage) {
-                                    store.send(.removePhotoSelected(index))
-                                }
-                            }
-                        }
-                        .padding()
-                        .alert($store.scope(state: \.alert, action: \.alert))
-                        
-                        
-                    }
-                }
-                else {
-                    Text("사진을 등록해 주세요")
-                        .font(KHFont.subTitle01)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                }
-                
-                
-                
-                
-
-                
+       
+        
+        TextField(text: .constant("")) {
+            Text("캠핑장 이름")
+        }
+        DatePicker(selection: .constant(Date()), displayedComponents: .date) {
+            Text("방문 일자")
+        }
+        
+        Text("시설 정보")
+        
+        
+        Text("사진")
+        
+        ScrollView(.horizontal) {
+            PhotoItemView(Photo: ResourcesAsset.sample.swiftUIImage) {
             }
+        }
+        Map {
             
-            Spacer()
-            KHButton(title: "확인", action: {
-                store.send(.savePlace)
-                dismiss()
-            }, KHButtonStyle(background: KHColor.Primary.P00, 12)).foregroundColor(.white).frame(height: 50)
-        }.padding()
-        .navigationBarTitleDisplayMode(.inline)
+        }.frame(height: 180)
+        Spacer()
+        Button {
+            store.send(.savePlace)
+        } label: {
+            Text("저장하기")
+                .padding()
+                .frame(maxWidth: .infinity)
+                .foregroundColor(.white)
+        }.background(Color.blue).frame(width: .infinity)
+
+        
     }
 }
 
