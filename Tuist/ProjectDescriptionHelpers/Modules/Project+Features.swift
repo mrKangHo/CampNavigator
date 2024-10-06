@@ -79,13 +79,13 @@ extension Modules.Feature : ModuleProtocol {
              .Projcet.Domain,
              .Projcet.Resources,
              .Projcet.ThirdPartyLib,
-             .Projcet.Read]
+             .Features.Read]
         case .Read:
             [.Projcet.Data,
              .Projcet.Domain,
              .Projcet.Resources,
              .Projcet.ThirdPartyLib,
-             .Projcet.Edit]
+             .Features.Edit]
         case .Edit:
             [.Projcet.Data,
              .Projcet.Domain,

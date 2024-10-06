@@ -99,8 +99,8 @@ extension Modules : ModuleProtocol {
     public var dependencies: [TargetDependency] {
         switch self {
         case .App:
-            [.Projcet.Intro,
-             .Projcet.Read]
+            [.Features.Intro,
+             .Features.Read]
         case .ThirdPartyLib:
             [.SPM.TCA,
              .SPM.Lottie,

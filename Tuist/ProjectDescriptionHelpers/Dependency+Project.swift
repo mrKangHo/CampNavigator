@@ -34,7 +34,7 @@ public extension TargetDependency.Projcet {
 }
 
 
-public extension TargetDependency.Projcet {
+public extension TargetDependency.Features {
     static let Intro:TargetDependency = .project(target: "Intro",
                                                 path: .relativeToRoot("CampNavigator/Feature/Intro"))
     static let Read:TargetDependency = .project(target: "Read",
