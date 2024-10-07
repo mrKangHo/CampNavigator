@@ -50,6 +50,7 @@ extension CampDataBase : DependencyKey {
             @Dependency(\.databaseService.context) var context
             let campContext = try context()
             campContext.insert(newPlace)
+            try campContext.save()
         }
         catch {
             throw CampPlaceError.add
@@ -59,6 +60,7 @@ extension CampDataBase : DependencyKey {
             @Dependency(\.databaseService.context) var context
             let campContext = try context()
             campContext.delete(deletePlace)
+            try campContext.save()
         }
         catch {
             throw CampPlaceError.delete

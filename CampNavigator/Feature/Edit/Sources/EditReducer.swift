@@ -11,6 +11,7 @@ import ComposableArchitecture
 import Domain
 import Data
 import MapKit
+import Resources
 
 @Reducer
 public struct EditReducer {
@@ -33,20 +34,22 @@ public struct EditReducer {
         public var address:String = ""
         public var mapCoordinateRegion:MKCoordinateRegion
         public var selectedIndex: Int? = nil // 선택된 인덱스
+        
+        public var saveResult:Bool = false
+        
         @Presents var alert:AlertState<Action.AlertAction>?
         
     }
     
-    public enum Action {
-        case removePhotoSelected(Int)
-        case removePhoto
-        case updateName(String)
-        case updateVisitDate(Date)
-        case updateLocation(MKCoordinateRegion)
-        case convertAddress(CLPlacemark?)
-        case savePlace
-        case showAlert
-        case alert(PresentationAction<AlertAction>)
+    public enum Action:ViewAction {
+        
+        
+        case view(View)
+        case saveComplete
+        
+        public enum View {
+            case savePlace
+        }
         
         @CasePathable
         public enum AlertAction {
@@ -62,69 +65,42 @@ public struct EditReducer {
         
         Reduce { state, action in
             switch action {
-            case .removePhotoSelected(let index):
-                state.selectedIndex = index
-                return .send(.showAlert)
-            case .removePhoto:
-                guard let removeIndex = state.selectedIndex else { return .none}
-                state.editInfo.photos?.remove(at: removeIndex)
-                state.selectedIndex = nil
-                return .none
-            case .updateName(let newName):
-                state.editInfo.name = newName
-                return .none
-            case .updateVisitDate(let visitDate):
-                state.editInfo.visitDates = visitDate
-                return .none
-            case .updateLocation(let newLocation):
-                let coordinate = newLocation.center
-                let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-                                
-                state.mapCoordinateRegion = newLocation
-                return .run { send in
-                    
-                    let addressInfo = try? await CLGeocoder().reverseGeocodeLocation(location)
-                    await send(.convertAddress(addressInfo?.last))
-                }
-            case .convertAddress(let placeMark):
-                
-                let locality = placeMark?.locality ?? "" // 시, 구
-                let subLocality = placeMark?.subLocality ?? "" // 동, 읍, 면
-                let address = "\(locality) \(subLocality)"
-                print(address)
-                state.address = address
-                return .none
-            case .savePlace:
-                return .run { [saveItem = state.editInfo] send in
-                    try? campPlace.add(saveItem)
-                }
-            case .showAlert:
-                state.alert = AlertState(title: {
-                    TextState("사진 삭제")
-                }, actions: {
-                    ButtonState(role: .destructive, action: .confirmTapped) {
-                        TextState("삭제")
-                    }
-                    ButtonState(role: .cancel, action: .cancelTapped) {
-                        TextState("취소")
-                    }
-                }, message: {
-                    TextState("선택한 사진을 삭제 할까요?")
-                })
-                return .none
-            case .alert(.presented(let alertAction)):
-                switch alertAction {
-                case .cancelTapped:
-                    break
-                case .confirmTapped:
-                    return .send(.removePhoto)
-                }
-                return .none
-            case .alert(.dismiss):
+            case .view(let viewAction):
+                return viewActions(viewAction)
+            case .saveComplete:
+                state.saveResult = true
+                print("저장완료")
                 return .none
             }
 
-        }.ifLet(\.alert, action: \.alert)
+        }
+    }
+}
+
+extension EditReducer {
+    
+    private func viewActions(_ action:Action.View) -> Effect<Action> {
+        switch action {
+            
+        case .savePlace:
+            
+            
+            
+            let facility = ["샤워실", "개인화장실"].map {CampFacility(name: $0)}
+            
+            let photos = [ResourcesAsset.panda.image.pngData()].compactMap{$0}
+            
+            let location = CampLocation(address: "강원도 속초시", latitude: 37.5783, longitude: 126.9770)
+            
+            let newCamp = CampPlace(name: "강호캠핑장2", visitDates: Date(), facility: facility, photos: photos, location: location)
+            
+            return .run { send in
+                
+                try? campPlace.add(newCamp)
+                
+                await send(.saveComplete)
+            }
+        }
     }
 }
 
