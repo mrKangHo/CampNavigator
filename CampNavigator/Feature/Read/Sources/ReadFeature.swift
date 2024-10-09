@@ -1,5 +1,5 @@
 //
-//  ReadReducer.swift
+//  ReadFeature.swift
 //  Read
 //
 //  Created by LEE on 8/2/24.
@@ -14,7 +14,7 @@ import Domain
 import Data
 
 @Reducer
-public struct ReadReducer {
+public struct ReadFeature {
     
     public init(){}
     

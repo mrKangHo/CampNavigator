@@ -53,7 +53,7 @@ public struct IntroView: View {
                 .padding(.horizontal, 20)
             }
             .fullScreenCover(isPresented: $isNavigatingToB) {
-                ReadView(store: Store(initialState: ReadReducer.State()) {ReadReducer()})
+                ReadView(store: Store(initialState: ReadFeature.State()) {ReadFeature()})
             }
         }
     }

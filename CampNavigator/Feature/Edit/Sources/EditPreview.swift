@@ -20,15 +20,15 @@ struct EditPreview: App {
     
     var body: some Scene {
         WindowGroup {
-            EditView(store: Store(initialState: EditReducer.State(), reducer: {
-                EditReducer()
+            EditView(store: Store(initialState: EditFeature.State(), reducer: {
+                EditFeature()
             })).modelContainer(CampModelContainer.modelContainer)
         }
     }
 }
 #Preview {
-    EditView(store: Store(initialState: EditReducer.State(), reducer: {
-        EditReducer()
+    EditView(store: Store(initialState: EditFeature.State(), reducer: {
+        EditFeature()
     }))
 }
 

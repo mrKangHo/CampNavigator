@@ -4,15 +4,16 @@ import ComposableArchitecture
 import Resources
 import Lottie
 import Edit
+import SwiftData
 
 public struct ReadView: View {
     
-    public init(store: StoreOf<ReadReducer>) {
+    public init(store: StoreOf<ReadFeature>) {
         self.store = store
     }
     
-    let store:StoreOf<ReadReducer>
-    
+    let store:StoreOf<ReadFeature>
+     
    
     public var body: some View {
         NavigationView(content: {
@@ -50,8 +51,8 @@ internal extension ReadView {
             ZStack {
                 ReadItemView(item: item)
                 NavigationLink {
-                    EditView(store: Store(initialState: EditReducer.State(), reducer: {
-                        EditReducer()
+                    EditView(store: Store(initialState: EditFeature.State(), reducer: {
+                        EditFeature()
                     }))
                 } label: {
                     EmptyView()
@@ -66,8 +67,8 @@ internal extension ReadView {
     }
     
     func itemAddButton() -> some View {
-        NavigationLink(destination: EditView(store: Store(initialState: EditReducer.State(), reducer: {
-            EditReducer()
+        NavigationLink(destination: EditView(store: Store(initialState: EditFeature.State(), reducer: {
+            EditFeature()
         }))) {
             Image(systemName: "plus.app")
                 .resizable()
@@ -79,6 +80,6 @@ internal extension ReadView {
 }
 
 #Preview {
-    ReadView(store: Store(initialState: ReadReducer.State()) {ReadReducer()})
+    ReadView(store: Store(initialState: ReadFeature.State()) {ReadFeature()})
 }
 

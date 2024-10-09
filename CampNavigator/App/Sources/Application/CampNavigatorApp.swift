@@ -15,7 +15,7 @@ struct CampNavigatorApp: App {
     var body: some Scene {
         WindowGroup {
             if hasRunHistgory {
-                ReadView(store: Store(initialState: ReadReducer.State()) {ReadReducer()}).modelContainer(CampModelContainer.modelContainer)
+                ReadView(store: Store(initialState: ReadFeature.State()) {ReadFeature()}).modelContainer(CampModelContainer.modelContainer)
             }
             else {
                 IntroView().modelContainer(CampModelContainer.modelContainer)
