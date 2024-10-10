@@ -7,24 +7,31 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
-struct FacilitieView: View {
+public struct FacilitieView: View {
     
-    @State var bgColor:Color = .red
-    @State var text:String = ""
-    var body: some View {
-        
+    public init(store: StoreOf<FacilitieFeature>) {
+        self.store = store
+     
+    }
+    
+    @Bindable public var store:StoreOf<FacilitieFeature>
+    
+    public var body: some View {
+
         VStack {
-            TextField("입력해 주세요", text: $text)
+            TextField("입력해 주세요", text: $store.text.sending(\.updateText))
                         .padding()
-                        .background(bgColor)
+                        .background(store.bgColor)
                         .clipShape(Capsule())
                         .multilineTextAlignment(.center)
                         .foregroundColor(.white)
-            ColorPicker("배경 컬러를 선택해주세요", selection: $bgColor)
+            ColorPicker("배경 컬러를 선택해주세요",
+                        selection: $store.bgColor.sending(\.updateBGColor))
             Spacer()
             Button {
-                
+                store.send(.added)
             } label: {
                 Text("추가하기").foregroundStyle(.white)
             }
@@ -44,5 +51,7 @@ struct FacilitieView: View {
 }
 
 #Preview {
-    FacilitieView()
+    FacilitieView(store: Store(initialState: FacilitieFeature.State(), reducer: {
+        FacilitieFeature()
+    }))
 }

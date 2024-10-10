@@ -51,6 +51,11 @@ public struct EditFeature {
         public var photos:[Data] = []
         public var address:String = ""
         public var facilities:[String] = ["개인 화장실", "오션뷰"]
+        public var facilitiesState:FacilitieFeature.State = FacilitieFeature.State()
+        
+        
+        public var isShowFacilitiesView:Bool = false
+        
         @Presents var alert:AlertState<Action.AlertAction>?
         
     }
@@ -65,10 +70,13 @@ public struct EditFeature {
         case updatePhotos(PhotosPickerItem?)
         case updateAddress(String)
         case updateFacilities([String])
+        case facilitiesAction(FacilitieFeature.Action)
+        case setSheet(Bool)
         public enum View {
             case addPhoto(Data)
             case updateLotions(CLLocationCoordinate2D)
             case savePlace
+            case setSheet(Bool)
         }
         
         @CasePathable
@@ -83,6 +91,9 @@ public struct EditFeature {
     
     public var body: some Reducer<State, Action> {
         
+        Scope(state: \.facilitiesState, action: \.facilitiesAction) {
+            FacilitieFeature()
+        }
         Reduce { state, action in
             switch action {
             case .view(let viewAction):
@@ -112,6 +123,17 @@ public struct EditFeature {
             case .updateFacilities(let newFacilities):
                 state.facilities = newFacilities
                 return .none
+            case .facilitiesAction(\.added):
+                state.facilities.append(state.facilitiesState.text)
+                state.facilitiesState = FacilitieFeature.State()
+                state.isShowFacilitiesView = false
+                return .none
+            case .facilitiesAction:
+                return .none
+            case .setSheet(let isPresented):
+                state.isShowFacilitiesView = isPresented
+                return .none
+            
             }
 
         }
@@ -160,6 +182,9 @@ extension EditFeature {
                 let address = "\(locality) \(subLocality)"
                 await send(.updateAddress(address))
             }
+        case .setSheet(let isPresented):
+            state.isShowFacilitiesView = isPresented
+            return .none
         }
     }
 }

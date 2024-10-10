@@ -82,7 +82,7 @@ public struct EditView: View {
                         Text("시설 정보")
                         Spacer()
                         Button {
-                            
+                            send(.setSheet(true))
                         } label: {
                             Text("추가하기")
                         }
@@ -96,6 +96,8 @@ public struct EditView: View {
                 
                 
             }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+        }.sheet(isPresented: $store.isShowFacilitiesView.sending(\.setSheet)) {
+            FacilitieView(store: store.scope(state: \.facilitiesState, action: \.facilitiesAction))
         }
         
         Button {
