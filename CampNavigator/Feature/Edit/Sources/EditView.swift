@@ -88,7 +88,7 @@ public struct EditView: View {
                         }
 
                     }
-                    ChipListView(chips:$store.facilities.sending(\.updateFacilities))
+                    ChipListView(store: store.scope(state: \.chipListState, action: \.chipListAction))
                 }
                 
                 

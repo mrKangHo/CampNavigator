@@ -52,7 +52,7 @@ public struct EditFeature {
         public var address:String = ""
         public var facilities:[String] = ["개인 화장실", "오션뷰"]
         public var facilitiesState:FacilitieFeature.State = FacilitieFeature.State()
-        
+        public var chipListState:ChipListFeature.State = ChipListFeature.State()
         
         public var isShowFacilitiesView:Bool = false
         
@@ -71,6 +71,7 @@ public struct EditFeature {
         case updateAddress(String)
         case updateFacilities([String])
         case facilitiesAction(FacilitieFeature.Action)
+        case chipListAction(ChipListFeature.Action)
         case setSheet(Bool)
         public enum View {
             case addPhoto(Data)
@@ -93,6 +94,9 @@ public struct EditFeature {
         
         Scope(state: \.facilitiesState, action: \.facilitiesAction) {
             FacilitieFeature()
+        }
+        Scope(state: \.chipListState, action: \.chipListAction) {
+            ChipListFeature()
         }
         Reduce { state, action in
             switch action {
@@ -133,7 +137,8 @@ public struct EditFeature {
             case .setSheet(let isPresented):
                 state.isShowFacilitiesView = isPresented
                 return .none
-            
+            case .chipListAction:
+                return .none
             }
 
         }

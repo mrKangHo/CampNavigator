@@ -7,16 +7,21 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
-struct ChipListView: View {
+public struct ChipListView: View {
+    public init(store: StoreOf<ChipListFeature>) {
+        self.store = store
+    }
+    @Bindable public var store:StoreOf<ChipListFeature>
     
-    @Binding var chips:[String]
+    
 
-    var body: some View {
+    public var body: some View {
         ScrollView(.horizontal) {
             HStack {
-                ForEach(chips, id: \.self) { ss in
-                    Chip(text: ss)
+                ForEach(store.chips, id: \.self) { chip in
+                    Chip(text: chip)
                 }
                 Spacer()
             }
@@ -28,13 +33,25 @@ struct Chip: View {
     var text: String
     
     var body: some View {
-        Text(text)
-            .padding(10)
-            .background(Color.blue.opacity(0.2))
-            .cornerRadius(20)
+        HStack {
+            Text(text).padding([.leading, .top, .bottom], 10)
+                
+            Button {
+                
+            } label: {
+                Image(systemName: "xmark.circle")
+            }.padding(.trailing, 10)
+        }
+        .background(Color.blue.opacity(0.2))
+        .clipShape(Capsule())
+        
     }
 }
 
 #Preview {
-    ChipListView(chips: .constant(["샤워실","데크"]))
+    
+    ChipListView(store: Store(initialState: ChipListFeature.State(), reducer: {
+        ChipListFeature()
+    }))
+    Spacer()
 }
