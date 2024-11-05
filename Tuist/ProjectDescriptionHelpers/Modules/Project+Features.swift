@@ -13,6 +13,7 @@ public extension Modules {
         case Read
         case Edit
         case Filter
+        case Facilities
     }
 }
 
@@ -30,6 +31,8 @@ extension Modules.Feature : ModuleProtocol {
             return "Edit"
         case .Filter:
             return "Filter"
+        case .Facilities:
+            return "Facilities"
         }
     }
     
@@ -47,6 +50,8 @@ extension Modules.Feature : ModuleProtocol {
             return .framework
         case .Filter:
             return .staticLibrary
+        case .Facilities:
+            return .framework
         }
     }
     
@@ -59,6 +64,8 @@ extension Modules.Feature : ModuleProtocol {
         case .Edit:
             return .default
         case .Filter:
+            return .default
+        case .Facilities:
             return .default
         }
     }
@@ -90,9 +97,19 @@ extension Modules.Feature : ModuleProtocol {
             [.Projcet.Data,
              .Projcet.Domain,
              .Projcet.Resources,
-             .Projcet.ThirdPartyLib]
+             .Projcet.ThirdPartyLib,
+             .Features.Filter,
+             .Features.Facilities]
         case .Filter:
-            []
+            [.Projcet.Data,
+             .Projcet.Domain,
+             .Projcet.Resources,
+             .Projcet.ThirdPartyLib,]
+        case .Facilities:
+            [.Projcet.Data,
+             .Projcet.Domain,
+             .Projcet.Resources,
+             .Projcet.ThirdPartyLib,]
         }
     }
     

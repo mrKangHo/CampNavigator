@@ -18,10 +18,23 @@ public struct ChipListView: View {
     
 
     public var body: some View {
+        
+        HStack {
+            Text("시설 정보")
+            Spacer()
+            Button {
+                store.send(.addChip(true))
+            } label: {
+                Text("추가하기")
+            }
+        }.sheet(isPresented: $store.isShowFacilities.sending(\.addChip)) {
+            FacilitieView(store: store.scope(state: \.facilitiesState, action: \.facilitiesAction))
+        }
+        
         ScrollView(.horizontal) {
             HStack {
                 ForEach(store.chips, id: \.self) { chip in
-                    Chip(text: chip)
+                    ChipListItem(text: chip)
                 }
                 Spacer()
             }
@@ -29,28 +42,10 @@ public struct ChipListView: View {
     }
 }
 
-struct Chip: View {
-    var text: String
-    
-    var body: some View {
-        HStack {
-            Text(text).padding([.leading, .top, .bottom], 10)
-                
-            Button {
-                
-            } label: {
-                Image(systemName: "xmark.circle")
-            }.padding(.trailing, 10)
-        }
-        .background(Color.blue.opacity(0.2))
-        .clipShape(Capsule())
-        
-    }
-}
 
 #Preview {
     
-    ChipListView(store: Store(initialState: ChipListFeature.State(), reducer: {
+    ChipListView(store: Store(initialState: ChipListFeature.State([]), reducer: {
         ChipListFeature()
     }))
     Spacer()

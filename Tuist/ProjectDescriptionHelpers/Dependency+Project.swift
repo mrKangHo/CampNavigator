@@ -41,6 +41,9 @@ public extension TargetDependency.Features {
                                                 path: .relativeToRoot("CampNavigator/Feature/Read"))
     static let Edit:TargetDependency = .project(target: "Edit", 
                                                 path: .relativeToRoot("CampNavigator/Feature/Edit"))
+    static let Facilities:TargetDependency = .project(target: "Facilities",
+                                                path: .relativeToRoot("CampNavigator/Feature/Facilities"))
+    
     static let Filter:TargetDependency = .project(target: "Filter",
                                                 path: .relativeToRoot("CampNavigator/Feature/Filter"))
     

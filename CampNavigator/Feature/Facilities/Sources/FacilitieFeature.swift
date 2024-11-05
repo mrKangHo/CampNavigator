@@ -16,6 +16,8 @@ public struct FacilitieFeature {
     
     @ObservableState
     public struct State {
+        public init() {}
+            
         public var bgColor:Color = .red
         public var text:String = ""
     }

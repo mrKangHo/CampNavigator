@@ -14,6 +14,7 @@ import MapKit
 import Resources
 import SwiftUI
 import PhotosUI
+import Facilities
 
 @Reducer
 public struct EditFeature {
@@ -51,8 +52,7 @@ public struct EditFeature {
         public var photos:[Data] = []
         public var address:String = ""
         public var facilities:[String] = ["개인 화장실", "오션뷰"]
-        public var facilitiesState:FacilitieFeature.State = FacilitieFeature.State()
-        public var chipListState:ChipListFeature.State = ChipListFeature.State()
+        public var chipListState:ChipListFeature.State = ChipListFeature.State(["개인 화장실", "오션뷰"])
         
         public var isShowFacilitiesView:Bool = false
         
@@ -70,14 +70,11 @@ public struct EditFeature {
         case updatePhotos(PhotosPickerItem?)
         case updateAddress(String)
         case updateFacilities([String])
-        case facilitiesAction(FacilitieFeature.Action)
         case chipListAction(ChipListFeature.Action)
-        case setSheet(Bool)
         public enum View {
             case addPhoto(Data)
             case updateLotions(CLLocationCoordinate2D)
             case savePlace
-            case setSheet(Bool)
         }
         
         @CasePathable
@@ -92,9 +89,6 @@ public struct EditFeature {
     
     public var body: some Reducer<State, Action> {
         
-        Scope(state: \.facilitiesState, action: \.facilitiesAction) {
-            FacilitieFeature()
-        }
         Scope(state: \.chipListState, action: \.chipListAction) {
             ChipListFeature()
         }
@@ -115,7 +109,6 @@ public struct EditFeature {
                 state.placeName = name
                 return .none
             case .updateLocation(let newLocation):
-                
                 state.placeLocation = newLocation
                 return .none
             case .updatePhotos(let photo):
@@ -126,16 +119,6 @@ public struct EditFeature {
                 return .none
             case .updateFacilities(let newFacilities):
                 state.facilities = newFacilities
-                return .none
-            case .facilitiesAction(\.added):
-                state.facilities.append(state.facilitiesState.text)
-                state.facilitiesState = FacilitieFeature.State()
-                state.isShowFacilitiesView = false
-                return .none
-            case .facilitiesAction:
-                return .none
-            case .setSheet(let isPresented):
-                state.isShowFacilitiesView = isPresented
                 return .none
             case .chipListAction:
                 return .none
@@ -187,9 +170,6 @@ extension EditFeature {
                 let address = "\(locality) \(subLocality)"
                 await send(.updateAddress(address))
             }
-        case .setSheet(let isPresented):
-            state.isShowFacilitiesView = isPresented
-            return .none
         }
     }
 }

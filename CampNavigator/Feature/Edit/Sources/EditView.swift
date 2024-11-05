@@ -13,7 +13,7 @@ import ComposableArchitecture
 import Domain
 import MapKit
 import PhotosUI
-
+import Facilities
 
 
 @ViewAction(for: EditFeature.self)
@@ -77,27 +77,9 @@ public struct EditView: View {
                 }.cornerRadius(8)
                 
                 VStack {
-                
-                    HStack {
-                        Text("시설 정보")
-                        Spacer()
-                        Button {
-                            send(.setSheet(true))
-                        } label: {
-                            Text("추가하기")
-                        }
-
-                    }
                     ChipListView(store: store.scope(state: \.chipListState, action: \.chipListAction))
                 }
-                
-                
-                
-                
-                
-            }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-        }.sheet(isPresented: $store.isShowFacilitiesView.sending(\.setSheet)) {
-            FacilitieView(store: store.scope(state: \.facilitiesState, action: \.facilitiesAction))
+            }.padding([.leading, .trailing], 20)
         }
         
         Button {
