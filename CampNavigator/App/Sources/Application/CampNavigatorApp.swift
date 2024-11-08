@@ -15,7 +15,18 @@ struct CampNavigatorApp: App {
     var body: some Scene {
         WindowGroup {
             if hasRunHistgory {
-                ReadView(store: Store(initialState: ReadFeature.State()) {ReadFeature()}).modelContainer(CampModelContainer.modelContainer)
+                TabView {
+                    NormalListView(store: Store(initialState: NormalListFeature.State()) {NormalListFeature()}).modelContainer(CampModelContainer.modelContainer)
+                        .tabItem {
+                        Image(systemName: "list.bullet.below.rectangle")
+                        Text("목록")
+                    }
+                    .tag(0)
+                    MapListView(store: Store(initialState: MapListFeature.State()) {MapListFeature()}).modelContainer(CampModelContainer.modelContainer).tabItem {
+                        Image(systemName: "map")
+                        Text("지도")
+                    }.tag(1)
+                }
             }
             else {
                 IntroView().modelContainer(CampModelContainer.modelContainer)

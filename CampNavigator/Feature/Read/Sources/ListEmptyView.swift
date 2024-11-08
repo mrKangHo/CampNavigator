@@ -1,5 +1,5 @@
 //
-//  ReadEmptyView.swift
+//  ListEmptyView.swift
 //  Read
 //
 //  Created by LEE on 10/3/24.
@@ -11,7 +11,7 @@ import KHDesignSystem
 import Resources
 import Lottie
 
-public struct ReadEmptyView: View {
+public struct ListEmptyView: View {
 
     public init() {
         

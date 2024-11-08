@@ -22,13 +22,13 @@ struct ReadPreview: App {
     
     var body: some Scene {
         WindowGroup {
-            let state = ReadFeature.State()
-            let reducer = Store(initialState: state) {ReadFeature()}
+            let state = NormalListFeature.State()
+            let reducer = Store(initialState: state) {NormalListFeature()}
             
-            ReadView(store: reducer).modelContainer(CampModelContainer.modelContainer)
+            NormalListView(store: reducer).modelContainer(CampModelContainer.modelContainer)
         }
     }
 }
 #Preview {
-    ReadView(store: Store(initialState: ReadFeature.State()) {ReadFeature()})
+    NormalListView(store: Store(initialState: NormalListFeature.State()) {NormalListFeature()})
 }

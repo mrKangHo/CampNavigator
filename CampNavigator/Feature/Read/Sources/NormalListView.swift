@@ -6,20 +6,20 @@ import Lottie
 import Edit
 import SwiftData
 
-public struct ReadView: View {
+public struct NormalListView: View {
     
-    public init(store: StoreOf<ReadFeature>) {
+    public init(store: StoreOf<NormalListFeature>) {
         self.store = store
     }
     
-    let store:StoreOf<ReadFeature>
+    let store:StoreOf<NormalListFeature>
      
    
     public var body: some View {
         NavigationView(content: {
             VStack {
                 if store.items.isEmpty {
-                    ReadEmptyView()
+                    ListEmptyView()
                 }
                 else {
                     itemListView()
@@ -44,7 +44,7 @@ public struct ReadView: View {
 
 
 
-internal extension ReadView {
+internal extension NormalListView {
     
     func itemListView() -> some View {
         List(store.items, id: \.id) { item in
@@ -80,6 +80,6 @@ internal extension ReadView {
 }
 
 #Preview {
-    ReadView(store: Store(initialState: ReadFeature.State()) {ReadFeature()})
+    NormalListView(store: Store(initialState: NormalListFeature.State()) {NormalListFeature()})
 }
 

@@ -53,7 +53,19 @@ public struct IntroView: View {
                 .padding(.horizontal, 20)
             }
             .fullScreenCover(isPresented: $isNavigatingToB) {
-                ReadView(store: Store(initialState: ReadFeature.State()) {ReadFeature()})
+                TabView {
+                    NormalListView(store: Store(initialState: NormalListFeature.State()) {NormalListFeature()})
+                        .tabItem {
+                        Image(systemName: "list.bullet.below.rectangle")
+                        Text("목록")
+                    }
+                    .tag(0)
+                    MapListView(store: Store(initialState: MapListFeature.State()) {MapListFeature()})
+                        .tabItem {
+                        Image(systemName: "map")
+                        Text("지도")
+                    }.tag(1)
+                }
             }
         }
     }
