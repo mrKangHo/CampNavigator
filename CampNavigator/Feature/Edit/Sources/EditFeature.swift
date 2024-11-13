@@ -24,15 +24,7 @@ public struct EditFeature {
     @ObservableState
     public struct State {
         public init() {
-//        public init(editInfo: CampPlace = CampPlace(name: "", visitDates: Date())) {
-//            self.editInfo = editInfo
-//            if let location = editInfo.location {
-//                
-//                self.mapCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude), span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
-//            }
-//            else {
-//                self.mapCoordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.5783, longitude: 126.9770), span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
-//            }
+            
         }
         
         public var saveResult:Bool = false
@@ -47,7 +39,7 @@ public struct EditFeature {
             
             
         }()
- 
+        
         public var selectedPhotoItems: PhotosPickerItem?
         public var photos:[Data] = []
         public var address:String = ""
@@ -60,22 +52,21 @@ public struct EditFeature {
         
     }
     
-    public enum Action:ViewAction {
+    public enum Action {
+        case alert(PresentationAction<AlertAction>)
+        case alertButtonTapped
         
-        case view(View)
-        case saveComplete
+        
         case updateName(String)
         case updateDate(Date)
-        case updateLocation(MapCameraPosition)
         case updatePhotos(PhotosPickerItem?)
         case updateAddress(String)
-        case updateFacilities([String])
         case chipListAction(ChipListFeature.Action)
-        public enum View {
-            case addPhoto(Data)
-            case updateLotions(CLLocationCoordinate2D)
-            case savePlace
-        }
+        case addPhoto(Data)
+        case updateLotions(CLLocationCoordinate2D)
+        case savePlace
+        case saveComplete
+        
         
         @CasePathable
         public enum AlertAction {
@@ -94,8 +85,25 @@ public struct EditFeature {
         }
         Reduce { state, action in
             switch action {
-            case .view(let viewAction):
-                return viewActions(&state, viewAction)
+            case .alert(.presented(.confirmTapped)):
+                return .send(.savePlace)
+            case .alert:
+                return .none
+                
+            case .alertButtonTapped:
+                state.alert = AlertState {
+                    TextState("알림")
+                } actions: {
+                    ButtonState(role: .cancel) {
+                        TextState("취소")
+                    }
+                    ButtonState(action: .confirmTapped) {
+                        TextState("저장")
+                    }
+                } message: {
+                    TextState("작성된 내용을 저장할까요?")
+                }
+                return .none
             case .saveComplete:
                 state.saveResult = true
                 print("저장완료")
@@ -108,69 +116,56 @@ public struct EditFeature {
                 print(name)
                 state.placeName = name
                 return .none
-            case .updateLocation(let newLocation):
-                state.placeLocation = newLocation
-                return .none
             case .updatePhotos(let photo):
                 state.selectedPhotoItems = photo
                 return .none
             case .updateAddress(let newAddress):
                 state.address = newAddress
                 return .none
-            case .updateFacilities(let newFacilities):
-                state.facilities = newFacilities
-                return .none
             case .chipListAction:
                 return .none
+            case .savePlace:
+                
+                let facility = state.facilities.map {CampFacility(name: $0)}
+                
+                let photos = state.photos
+                
+                
+                let location = CampLocation(address: state.address,
+                                            latitude: state.placeCoordinate.latitude,
+                                            longitude: state.placeCoordinate.longitude)
+                
+                let newCamp = CampPlace(name: state.placeName,
+                                        visitDates: state.placeVisitDate,
+                                        facility: facility,
+                                        photos: photos,
+                                        location: location)
+                
+                return .run { send in
+                    
+                    try? campPlace.add(newCamp)
+                    
+                    await send(.saveComplete)
+                }
+            case .addPhoto(let newPhoto):
+                state.photos.append(newPhoto)
+                return .none
+            case .updateLotions(let newLocation):
+                let location = CLLocation(latitude: newLocation.latitude, longitude: newLocation.longitude)
+                state.placeCoordinate = newLocation
+                
+                return .run { send in
+                    let placeMark = try? await CLGeocoder().reverseGeocodeLocation(location).last
+                    let locality = placeMark?.locality ?? "" // 시, 구
+                    let subLocality = placeMark?.subLocality ?? "" // 동, 읍, 면
+                    let address = "\(locality) \(subLocality)"
+                    await send(.updateAddress(address))
+                }
             }
-
-        }
+            
+        }.ifLet(\.$alert, action: \.alert)
     }
 }
 
-extension EditFeature {
-    
-    private func viewActions(_ state:inout State, _ action:Action.View) -> Effect<Action> {
-        switch action {
-            
-        case .savePlace:
-            
-            let facility = state.facilities.map {CampFacility(name: $0)}
-            
-            let photos = state.photos
-            
-            
-            let location = CampLocation(address: state.address,
-                                        latitude: state.placeCoordinate.latitude,
-                                        longitude: state.placeCoordinate.longitude)
-            
-            let newCamp = CampPlace(name: state.placeName,
-                                    visitDates: state.placeVisitDate,
-                                    facility: facility,
-                                    photos: photos,
-                                    location: location)
-            
-            return .run { send in
-                
-                try? campPlace.add(newCamp)
-                
-                await send(.saveComplete)
-            }
-        case .addPhoto(let newPhoto):
-            state.photos.append(newPhoto)
-            return .none
-        case .updateLotions(let newLocation):
-            let location = CLLocation(latitude: newLocation.latitude, longitude: newLocation.longitude)
-            
-            
-            return .run { send in
-                let placeMark = try? await CLGeocoder().reverseGeocodeLocation(location).last
-                let locality = placeMark?.locality ?? "" // 시, 구
-                let subLocality = placeMark?.subLocality ?? "" // 동, 읍, 면
-                let address = "\(locality) \(subLocality)"
-                await send(.updateAddress(address))
-            }
-        }
-    }
-}
+
 

@@ -16,7 +16,7 @@ import PhotosUI
 import Facilities
 
 
-@ViewAction(for: EditFeature.self)
+
 public struct EditView: View {
     @Environment(\.dismiss) var dismiss
     public init(store: StoreOf<EditFeature>) {
@@ -30,7 +30,6 @@ public struct EditView: View {
         
         ScrollView {
             VStack {
-                
                 TextField(text: $store.placeName.sending(\.updateName)) {
                     Text("캠핑장 이름")
                 }
@@ -38,14 +37,17 @@ public struct EditView: View {
                     Text("방문 일자")
                 }.datePickerStyle(.compact)
                 
-                Map(initialPosition: store.placeLocation)
-                    .onMapCameraChange { mapCameraUpdateContext in
-                        send(.updateLotions(mapCameraUpdateContext.region.center))
-                    }
-                    .cornerRadius(8)
-                    .frame(height: 180)
-                
-                Text(store.address)
+                VStack {
+                    Map(initialPosition: store.placeLocation)
+                        .onMapCameraChange { mapCameraUpdateContext in
+                            store.send(.updateLotions(mapCameraUpdateContext.region.center))
+                        }
+                        .cornerRadius(8)
+                        .frame(height: 180)
+                    Text(store.address).padding()
+                }
+                .background(.ultraThickMaterial)
+                .cornerRadius(8)
                 
                 HStack {
                     PhotosPicker(selection: $store.selectedPhotoItems.sending(\.updatePhotos)) {
@@ -54,44 +56,46 @@ public struct EditView: View {
                         Task {
                             if let newItem = newValue,
                                let data = try? await newItem.loadTransferable(type: Data.self){
-                                send(.addPhoto(data))
+                                store.send(.addPhoto(data))
                             }
                         }
-                    })
-                   
-                    
+                    }).padding()
                     ScrollView(.horizontal) {
                         LazyHStack {
                             ForEach(store.photos, id: \.self) { photoData in
                                 if let uiImage = UIImage(data: photoData) {
                                     PhotoItemView(Photo: Image(uiImage: uiImage)) {
                                         // 이미지 클릭 시 동작
+                                        
                                     }
                                 }
                             }
                             
                         }
-                        
                     }
                     .frame(height: 140)
-                }.cornerRadius(8)
+                }
+                .background(.ultraThickMaterial)
+                .cornerRadius(8)
                 
                 VStack {
                     ChipListView(store: store.scope(state: \.chipListState, action: \.chipListAction))
-                }
-            }.padding([.leading, .trailing], 20)
+                }.padding()
+            }
+            .padding([.leading, .top, .trailing], 20)
         }
+        .alert($store.scope(state: \.alert, action: \.alert))
         
         Button {
-            send(.savePlace)
+            store.send(.alertButtonTapped)
         } label: {
             Text("저장하기")
                 .padding()
                 .frame(maxWidth: .infinity)
                 .foregroundColor(.white)
-        }.background(Color.blue).frame(width: .infinity)
-        
-        
+        }
+        .background(Color.blue)
+        .frame(width: .infinity)
     }
 }
 
