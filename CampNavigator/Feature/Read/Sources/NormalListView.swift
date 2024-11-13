@@ -12,7 +12,7 @@ public struct NormalListView: View {
         self.store = store
     }
     
-    let store:StoreOf<NormalListFeature>
+    @Bindable var store:StoreOf<NormalListFeature>
      
    
     public var body: some View {
@@ -37,7 +37,7 @@ public struct NormalListView: View {
             }
         }).onAppear() {
             store.send(.didApear)
-        }
+        }.confirmationDialog($store.scope(state: \.confirmationDialog, action: \.confirmationDialog))
         
     }
 }
@@ -48,20 +48,16 @@ internal extension NormalListView {
     
     func itemListView() -> some View {
         List(store.items, id: \.id) { item in
-            ZStack {
-                ReadItemView(item: item)
-                NavigationLink {
-                    EditView(store: Store(initialState: EditFeature.State(), reducer: {
-                        EditFeature()
-                    }))
-                } label: {
-                    EmptyView()
-                }.opacity(0)
-            }.listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 12, trailing: 0))
+            ReadItemView(item: item).onLongPressGesture(perform: {
+                UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                store.send(.confirmationDialogButtonTapped(item))
+            })
+                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 1, trailing: 0))
             .listRowSeparator(.hidden)
             .listStyle(.plain)
             .listRowBackground(Color.clear)
         }
+        .background(KHColor.Gray.GR10)
         .scrollContentBackground(.hidden)
         .listStyle(.plain)
     }

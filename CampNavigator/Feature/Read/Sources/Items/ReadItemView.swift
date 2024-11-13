@@ -10,6 +10,8 @@ import SwiftUI
 import Resources
 import Data
 import Domain
+import KHDesignSystem
+
 
 public struct ReadItemView: View {
     
@@ -22,31 +24,47 @@ public struct ReadItemView: View {
     
     
     public var body: some View {
-        ZStack {
-            if let firstPhotoData = item.photos?.first, let firstPhoto = UIImage(data: firstPhotoData) {
-                Image(uiImage: firstPhoto)
-                    .resizable()
-                    .clipShape(.rect(cornerRadius: 20))
-            }
-            
+        VStack {
             VStack {
                 HStack {
-                    DateView(visitDates: [item.visitDates])
-                        .frame(width: 80, height: 80)
-                        .padding(10)
+                    Text(item.name).font(KHFont.subTitle02)
                     Spacer()
                 }
-                Spacer()
-                PlaceView(campInfo: item)
-                    .frame(maxHeight: 140)
-                    .clipShape(.rect(topLeadingRadius: 12,
-                                     topTrailingRadius: 12))
+                HStack {
+                    Text(item.location?.address ?? "").font(KHFont.body02)
+                    Spacer()
+                }.padding(.top, 2)
+            }.padding([.horizontal,.top], 8)
+            
+            ZStack {
+                if let photo = item.photos?.first, let img = UIImage(data: photo) {
+                    Image(uiImage: img)
+                        .resizable()
+                }
             }
+            .frame(maxWidth: .infinity)
+            .aspectRatio(1, contentMode: .fit)
+            
+            VStack {
+                
+                HStack {
+                    Text(item.visitDates.formatted(.dateTime)).font(KHFont.body02)
+                    Spacer()
+                }
+                
+                if let facility = item.facility?.map({"#\($0.name)"}).joined(separator: ", "){
+                    Text(facility).foregroundStyle(KHColor.Primary.P10)
+                        .font(KHFont.body02)
+                        .frame(maxWidth: .infinity,
+                               alignment: .leading)
+                        .padding(.top, 4)
+                    
+                }
+            }.padding(.all, 8)
+            
             
         }
-        .padding(.horizontal, 20)
-        .frame(maxWidth: .infinity)
-        .frame(height: 400)
+        .background(.white)
         
         
     }
