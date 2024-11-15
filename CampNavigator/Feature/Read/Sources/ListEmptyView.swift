@@ -12,19 +12,19 @@ import Resources
 import Lottie
 
 public struct ListEmptyView: View {
-
+    
     public init() {
-        
+        KHFont.loadFonts()
     }
     public var body: some View {
         VStack(alignment: .center) {
             LottieView {
                 AnimationAsset.empty.animation
             }.playing(loopMode: .loop)
-            .resizable()
-            .frame(width: 300, height: 300)
+                .resizable()
+                .frame(width: 300, height: 300)
             Text("방문한곳이 없네요")
-                .font(KHFont.Body.B02)
+                .font(KHFont.Callout.C04)
                 .foregroundStyle(KHColor.Gray.GR90)
             
         }
@@ -34,5 +34,5 @@ public struct ListEmptyView: View {
 }
 
 #Preview {
-    EmptyView()
+    ListEmptyView()
 }
