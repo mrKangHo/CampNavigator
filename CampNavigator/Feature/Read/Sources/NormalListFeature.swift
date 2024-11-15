@@ -24,6 +24,7 @@ public struct NormalListFeature {
         
         public init() {}
         public var items:[CampPlace] = []
+        public var isShowAddView:Bool = false
         public var selectedItem:CampPlace?
         @Presents var confirmationDialog: ConfirmationDialogState<Action.ConfirmationDialog>?
         
@@ -34,6 +35,9 @@ public struct NormalListFeature {
         case fetch([CampPlace])
         case confirmationDialog(PresentationAction<ConfirmationDialog>)
         case confirmationDialogButtonTapped(CampPlace)
+        case setAddView(isPresented:Bool)
+        
+        
         
         @CasePathable
         public enum ConfirmationDialog {
@@ -88,6 +92,12 @@ public struct NormalListFeature {
                 } message: {
                     TextState("\(selectedItem.name)을 어떻게 할까요?")
                 }
+                return .none
+            case .setAddView(isPresented: true):
+                state.isShowAddView = true
+                return .none
+            case .setAddView(isPresented: false):
+                state.isShowAddView = false
                 return .none
             }
         }

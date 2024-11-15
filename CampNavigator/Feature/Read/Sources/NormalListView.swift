@@ -10,6 +10,7 @@ public struct NormalListView: View {
     
     public init(store: StoreOf<NormalListFeature>) {
         self.store = store
+        
     }
     
     @Bindable var store:StoreOf<NormalListFeature>
@@ -28,16 +29,32 @@ public struct NormalListView: View {
             .toolbar {
                 ToolbarItem(placement: .navigation) {
                     Text("방문 장소")
-                        .font(KHFont.title02)
+                        .font(KHFont.Headline.H02)
                         .foregroundColor(KHColor.Primary.P00)
                 }
                 ToolbarItem {
-                    itemAddButton()
+                    
+                    Button {
+                        store.send(.setAddView(isPresented: true))
+                    } label: {
+                        Image(systemName: "plus.square.fill.on.square.fill")
+                            .resizable()
+                            .frame(width: 22, height: 22)
+                    }
+                    .frame(width: 44, height: 44)
+
+                   
                 }
             }
         }).onAppear() {
             store.send(.didApear)
-        }.confirmationDialog($store.scope(state: \.confirmationDialog, action: \.confirmationDialog))
+        }
+        .sheet(isPresented: $store.isShowAddView.sending(\.setAddView), content: {
+            EditView(store: Store(initialState: EditFeature.State(), reducer: {
+                EditFeature()
+            }))
+        })
+        .confirmationDialog($store.scope(state: \.confirmationDialog, action: \.confirmationDialog))
         
     }
 }
@@ -48,7 +65,8 @@ internal extension NormalListView {
     
     func itemListView() -> some View {
         List(store.items, id: \.id) { item in
-            ReadItemView(item: item).onLongPressGesture(perform: {
+            ReadItemView(item: item)
+                .onLongPressGesture(perform: {
                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                 store.send(.confirmationDialogButtonTapped(item))
             })
@@ -60,18 +78,6 @@ internal extension NormalListView {
         .background(KHColor.Gray.GR10)
         .scrollContentBackground(.hidden)
         .listStyle(.plain)
-    }
-    
-    func itemAddButton() -> some View {
-        NavigationLink(destination: EditView(store: Store(initialState: EditFeature.State(), reducer: {
-            EditFeature()
-        }))) {
-            Image(systemName: "plus.app")
-                .resizable()
-                .frame(width: 22, height: 22)
-                .foregroundStyle(Color.blue) // 색상 변경
-        }
-        .frame(width: 44, height: 44)
     }
 }
 

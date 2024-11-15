@@ -20,7 +20,6 @@ struct PlaceView: View {
             VStack {
                 HStack {
                     Text(campInfo.name)
-                        .font(KHFont.subTitle03)
                         .foregroundStyle(.white)
                     Spacer()
                     Button(action: {}, label: {
@@ -45,7 +44,6 @@ struct PlaceView: View {
                 HStack {
                     Spacer()
                     Text(campInfo.location?.address ?? "")
-                        .font(KHFont.body02)
                         .foregroundStyle(.white)
                     Image(systemName: "mappin.and.ellipse.circle")
                         .foregroundColor(.white)

@@ -30,7 +30,7 @@ public struct IntroView: View {
                     HStack {
                         
                         Text("특별했던 경험을\n기록해 보세요")
-                            .font(KHFont.subTitle01)
+                            .font(KHFont.Body.B01)
                             .foregroundStyle(.white)
                             .lineSpacing(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
                             .multilineTextAlignment(.leading) // 다중 라인 텍스트 정렬
@@ -43,8 +43,7 @@ public struct IntroView: View {
                     Button("시작해요") {
                         hasRunHistgory = true
                         isNavigatingToB = true
-                    }.font(KHFont.subTitle01)
-                        .frame(maxWidth: .infinity)
+                    }.font(KHFont.Title.T05).frame(maxWidth: .infinity)
                         .padding()
                         .background(Color.blue)
                         .foregroundColor(.white)

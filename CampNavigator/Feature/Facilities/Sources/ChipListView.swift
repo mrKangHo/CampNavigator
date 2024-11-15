@@ -7,10 +7,12 @@
 //
 
 import SwiftUI
+import KHDesignSystem
 import ComposableArchitecture
 
 public struct ChipListView: View {
     public init(store: StoreOf<ChipListFeature>) {
+        KHFont.loadFonts()
         self.store = store
     }
     @Bindable public var store:StoreOf<ChipListFeature>
@@ -21,20 +23,35 @@ public struct ChipListView: View {
         
         HStack {
             Text("시설 정보")
+                .font(KHFont.Body.B05)
             Spacer()
             Button {
                 store.send(.addChip(true))
             } label: {
-                Text("추가하기")
+                Image(systemName: "plus.circle")
+                    .resizable()
+                    .frame(width: 26, height: 26)
             }
         }.sheet(isPresented: $store.isShowFacilities.sending(\.addChip)) {
             FacilitieView(store: store.scope(state: \.facilitiesState, action: \.facilitiesAction))
+                .presentationDetents([.height(180)])
+                .presentationCompactAdaptation(.none)
         }
         
         ScrollView(.horizontal) {
             HStack {
                 ForEach(store.chips, id: \.self) { chip in
-                    ChipListItem(text: chip)
+                    
+                    Button {
+                        
+                    } label: {
+                        HStack(spacing: 0, content: {
+                            Text("#\(chip)")
+                                .font(KHFont.Callout.C04)
+                                .foregroundStyle(KHColor.Primary.P10)
+                                
+                        })
+                    }
                 }
                 Spacer()
             }
@@ -45,7 +62,7 @@ public struct ChipListView: View {
 
 #Preview {
     
-    ChipListView(store: Store(initialState: ChipListFeature.State([]), reducer: {
+    ChipListView(store: Store(initialState: ChipListFeature.State(["aaaa","bbbb","aaaa","bbbb","aaaa","bbbb","aaaa","bbbb","aaaa","bbbb","aaaa","bbbb","aaaa","bbbb"]), reducer: {
         ChipListFeature()
     }))
     Spacer()

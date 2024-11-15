@@ -23,13 +23,10 @@ struct DateView: View {
             GlassView(cornerRadius: 10)
             VStack {
                 Text(self.convertDate(visitDates.first ?? Date(), format: "MMM").uppercased())
-                    .font(KHFont.title01)
                     .foregroundStyle(KHColor.Gray.GR50)
                 Text(self.convertDate(visitDates.first ?? Date(), format: "dd"))
-                    .font(KHFont.subTitle01)
                     .padding(.bottom, 4)
                 Text(visitCount)
-                    .font(KHFont.subTitle03)
                     .foregroundStyle(KHColor.Label.LB30)
                     .padding(.bottom, 4)
             }

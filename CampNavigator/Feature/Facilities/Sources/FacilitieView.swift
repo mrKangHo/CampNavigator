@@ -7,45 +7,39 @@
 //
 
 import SwiftUI
+import KHDesignSystem
 import ComposableArchitecture
 
 public struct FacilitieView: View {
     
     public init(store: StoreOf<FacilitieFeature>) {
         self.store = store
-     
+        KHFont.loadFonts()
     }
     
     @Bindable public var store:StoreOf<FacilitieFeature>
     
     public var body: some View {
 
-        VStack {
-            TextField("입력해 주세요", text: $store.text.sending(\.updateText))
-                        .padding()
-                        .background(store.bgColor)
-                        .clipShape(Capsule())
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(.white)
-            ColorPicker("배경 컬러를 선택해주세요",
-                        selection: $store.bgColor.sending(\.updateBGColor))
-            Spacer()
-            Button {
-                store.send(.added)
-            } label: {
-                Text("추가하기").foregroundStyle(.white)
-            }
-            .frame(maxWidth: .infinity)
-            .frame(height: 44)
-            .background(.blue)
-            .cornerRadius(8)
-            
-                
-        }.padding()
-   
-        
-        
+        Form {
+            TextField("입력해 주세요",
+                      text: $store.text.sending(\.updateText))
+                .font(KHFont.Body.B05)
+        }
+        Spacer()
 
+
+        Button {
+            store.send(.added)
+        } label: {
+            Text("추가하기")
+                .font(KHFont.Title.T05)
+                .padding()
+                .frame(maxWidth: .infinity)
+                .foregroundColor(.white)
+        }
+        .background(Color.blue)
+       
         
     }
 }

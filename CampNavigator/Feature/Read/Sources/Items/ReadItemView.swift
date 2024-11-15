@@ -20,6 +20,7 @@ public struct ReadItemView: View {
     
     public init(item: CampPlace) {
         self.item = item
+        KHFont.loadFonts()
     }
     
     
@@ -27,13 +28,14 @@ public struct ReadItemView: View {
         VStack {
             VStack {
                 HStack {
-                    Text(item.name).font(KHFont.subTitle02)
+                    Text(item.name)
+                        .font(KHFont.Body.B03)
                     Spacer()
                 }
                 HStack {
-                    Text(item.location?.address ?? "").font(KHFont.body02)
+                    Text(item.location?.address ?? "").font(KHFont.Caption.C04)
                     Spacer()
-                }.padding(.top, 2)
+                }
             }.padding([.horizontal,.top], 8)
             
             ZStack {
@@ -48,13 +50,15 @@ public struct ReadItemView: View {
             VStack {
                 
                 HStack {
-                    Text(item.visitDates.formatted(.dateTime)).font(KHFont.body02)
+                    Text(item.visitDates.formatted(.dateTime))
+                        .font(KHFont.Callout.C04)
                     Spacer()
                 }
                 
                 if let facility = item.facility?.map({"#\($0.name)"}).joined(separator: ", "){
-                    Text(facility).foregroundStyle(KHColor.Primary.P10)
-                        .font(KHFont.body02)
+                    Text(facility)
+                        .font(KHFont.Callout.C04)
+                        .foregroundStyle(KHColor.Primary.P10)
                         .frame(maxWidth: .infinity,
                                alignment: .leading)
                         .padding(.top, 4)
@@ -72,6 +76,6 @@ public struct ReadItemView: View {
 
 #Preview {
     
-    ReadItemView(item: CampPlace(name: "스칸디아", visitDates: Date(), photos: [ResourcesAsset.panda.image.pngData() ?? Data()], location: CampLocation(address: "서울 강남구 역삼동 12-1", latitude: 37.5, longitude: 126.95)))
+    ReadItemView(item: CampPlace(name: "스칸디아", visitDates: Date(),facility: [CampFacility(name: "화장실")], photos: [ResourcesAsset.panda.image.pngData() ?? Data()], location: CampLocation(address: "서울 강남구 역삼동 12-1", latitude: 37.5, longitude: 126.95)))
 }
 

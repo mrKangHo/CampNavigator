@@ -20,6 +20,7 @@ import Facilities
 public struct EditView: View {
     @Environment(\.dismiss) var dismiss
     public init(store: StoreOf<EditFeature>) {
+        KHFont.loadFonts()
         self.store = store
     }
     
@@ -32,26 +33,33 @@ public struct EditView: View {
             VStack {
                 TextField(text: $store.placeName.sending(\.updateName)) {
                     Text("캠핑장 이름")
-                }
+                        .font(KHFont.Title.T01)
+                }.font(KHFont.Title.T01)
+                
                 DatePicker(selection: $store.placeVisitDate.sending(\.updateDate), displayedComponents: .date) {
                     Text("방문 일자")
-                }.datePickerStyle(.compact)
+                        .font(KHFont.Body.B05)
+                }
+                .datePickerStyle(.compact)
+                .font(KHFont.Body.B05)
                 
                 VStack {
                     Map(initialPosition: store.placeLocation)
-                        .onMapCameraChange { mapCameraUpdateContext in
-                            store.send(.updateLotions(mapCameraUpdateContext.region.center))
-                        }
+//                        .onMapCameraChange { mapCameraUpdateContext in
+//                            store.send(.updateLotions(mapCameraUpdateContext.region.center))
+//                        }
                         .cornerRadius(8)
                         .frame(height: 180)
-                    Text(store.address).padding()
+                    Text(store.address)
+                        .font(KHFont.Body.B05)
+                        .padding()
                 }
                 .background(.ultraThickMaterial)
                 .cornerRadius(8)
                 
                 HStack {
                     PhotosPicker(selection: $store.selectedPhotoItems.sending(\.updatePhotos)) {
-                        Image(systemName: "photo")
+                        Image(systemName: "photo.badge.plus")
                     }.onChange(of: store.selectedPhotoItems, { oldValue, newValue in
                         Task {
                             if let newItem = newValue,
@@ -80,7 +88,7 @@ public struct EditView: View {
                 
                 VStack {
                     ChipListView(store: store.scope(state: \.chipListState, action: \.chipListAction))
-                }.padding()
+                }.padding(.top, 20)
             }
             .padding([.leading, .top, .trailing], 20)
         }
@@ -90,12 +98,12 @@ public struct EditView: View {
             store.send(.alertButtonTapped)
         } label: {
             Text("저장하기")
+                .font(KHFont.Title.T05)
                 .padding()
                 .frame(maxWidth: .infinity)
                 .foregroundColor(.white)
         }
         .background(Color.blue)
-        .frame(width: .infinity)
     }
 }
 

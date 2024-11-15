@@ -24,7 +24,7 @@ public struct ListEmptyView: View {
             .resizable()
             .frame(width: 300, height: 300)
             Text("방문한곳이 없네요")
-                .font(KHFont.subTitle02)
+                .font(KHFont.Body.B02)
                 .foregroundStyle(KHColor.Gray.GR90)
             
         }

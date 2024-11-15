@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import KHDesignSystem
 
 public struct ChipListItem: View {
     public init(text: String) {
@@ -16,7 +17,9 @@ public struct ChipListItem: View {
     
     public var body: some View {
         HStack {
-            Text(text).padding([.leading, .top, .bottom], 10)
+            Text(text)
+                .font(KHFont.Body.B04)
+                .padding([.leading, .top, .bottom], 10)
                 
             Button {
                 
